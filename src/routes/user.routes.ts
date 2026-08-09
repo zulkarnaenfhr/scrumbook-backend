@@ -30,13 +30,13 @@ router.get("/", getUsers);
 
 /**
  * @swagger
- * /api/users/{id}:
+ * /api/users/{email}:
  *   get:
  *     tags:
  *       - Users
- *     summary: Get user by ID
+ *     summary: Get user by email
  *     parameters:
- *       - $ref: '#/components/parameters/UserId'
+ *       - $ref: '#/components/parameters/UserEmail'
  *     responses:
  *       200:
  *         description: User found
@@ -47,7 +47,7 @@ router.get("/", getUsers);
  *       404:
  *         description: User not found
  */
-router.get("/:id", getUser);
+router.get("/:email", getUser);
 
 /**
  * @swagger
@@ -80,13 +80,13 @@ router.post("/", createUser);
 
 /**
  * @swagger
- * /api/users/{id}:
+ * /api/users/{email}:
  *   put:
  *     tags:
  *       - Users
  *     summary: Update a user
  *     parameters:
- *       - $ref: '#/components/parameters/UserId'
+ *       - $ref: '#/components/parameters/UserEmail'
  *     requestBody:
  *       required: true
  *       content:
@@ -104,24 +104,24 @@ router.post("/", createUser);
  *       409:
  *         description: Email already exists
  */
-router.put("/:id", updateUser);
+router.put("/:email", updateUser);
 
 /**
  * @swagger
- * /api/users/{id}:
+ * /api/users/{email}:
  *   delete:
  *     tags:
  *       - Users
  *     summary: Deactivate a user
  *     description: Soft deletes the user by setting is_active to false.
  *     parameters:
- *       - $ref: '#/components/parameters/UserId'
+ *       - $ref: '#/components/parameters/UserEmail'
  *     responses:
  *       200:
  *         description: User deactivated
  *       404:
  *         description: User not found
  */
-router.delete("/:id", deleteUser);
+router.delete("/:email", deleteUser);
 
 export default router;

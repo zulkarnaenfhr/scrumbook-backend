@@ -25,22 +25,22 @@ const swaggerDefinition = {
 	],
 	components: {
 		parameters: {
-			UserId: {
-				name: 'id',
+			UserEmail: {
+				name: 'email',
 				in: 'path',
 				required: true,
-				description: 'User UUID',
+				description: 'User Email',
 				schema: {
 					type: 'string',
-					format: 'uuid',
-					example: '3562239c-885a-4715-bc5a-41b8c22cf049',
+					format: 'email',
+					example: 'fahri@example.com',
 				},
 			},
 		},
 		schemas: {
 			User: {
 				type: 'object',
-				required: ['id', 'email', 'name', 'is_active', 'created_at', 'updated_at'],
+				required: ['email', 'name', 'password_hash', 'is_active', 'created_at', 'updated_at'],
 				properties: {
 					id: {
 						type: 'string',
@@ -53,6 +53,10 @@ const swaggerDefinition = {
 						example: 'uler@gmail.com',
 					},
 					name: {
+						type: 'string',
+						example: 'Super User',
+					},
+					password_hash: {
 						type: 'string',
 						example: 'Super User',
 					},

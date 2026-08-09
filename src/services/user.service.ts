@@ -1,59 +1,74 @@
-import * as userRepository from "../repositories/user.repository.js";
-import {
-  CreateUserRequest,
-  UpdateUserRequest
-} from "../types/user.js";
+import * as userRepository from '../repositories/user.repository.js';
+import { CreateUserRequest, UpdateUserRequest } from '../types/user.js';
 
 export async function getUsers() {
-  return userRepository.findAll();
+	return userRepository.findAll();
 }
 
-export async function getUserById(id: string) {
-  const user = await userRepository.findById(id);
-  if (!user) throw new Error("User not found");
-  return user;
+export async function getUserByEmail(email: string) {
+	const user = await userRepository.findByEmail(email);
+
+	if (!user) {
+		throw new Error('User not found');
+	}
+
+	return user;
 }
 
 export async function createUser(data: CreateUserRequest) {
-  if (!data.email?.trim()) throw new Error("Email is required");
-  if (!data.name?.trim()) throw new Error("Name is required");
-  if (!data.password_hash?.trim()) throw new Error("Password is required");
+	const email = data.email.trim().toLowerCase();
+	const name = data.name.trim();
+	const password_hash = data.password_hash.trim();
 
-  const email = data.email.trim().toLowerCase();
-  const name = data.name.trim();
-  const password_hash = data.password_hash.trim();
+	const existingUser = await userRepository.findByEmail(email);
 
-  const existingUser = await userRepository.findByEmail(email);
-  if (existingUser) throw new Error("Email already exists");
+	if (existingUser) {
+		throw new Error('Email already exists');
+	}
 
-  return userRepository.create({ email, name, password_hash });
+	return userRepository.create({
+		email,
+		name,
+		password_hash,
+	});
 }
 
-export async function updateUser(id: string, data: UpdateUserRequest) {
-  const existingUser = await userRepository.findById(id);
-  if (!existingUser) throw new Error("User not found");
+export async function updateUser(email: string, data: UpdateUserRequest) {
+	const existingUser = await userRepository.findByEmail(email);
 
-  if (data.email) {
-    const email = data.email.trim().toLowerCase();
-    const existingEmail = await userRepository.findByEmail(email);
+	if (!existingUser) {
+		throw new Error('User not found');
+	}
 
-    if (existingEmail && existingEmail.id !== id) {
-      throw new Error("Email already exists");
-    }
+	const updateData: UpdateUserRequest = {
+		...data,
+	};
 
-    data.email = email;
-  }
+	if (updateData.email) {
+		const newEmail = updateData.email.trim().toLowerCase();
 
-  if (data.name) {
-    data.name = data.name.trim();
-  }
+		const existingEmail = await userRepository.findByEmail(newEmail);
 
-  return userRepository.update(id, data);
+		if (existingEmail && existingEmail.email !== email) {
+			throw new Error('Email already exists');
+		}
+
+		updateData.email = newEmail;
+	}
+
+	if (updateData.name) {
+		updateData.name = updateData.name.trim();
+	}
+
+	return userRepository.update(email, updateData);
 }
 
-export async function deleteUser(id: string) {
-  const existingUser = await userRepository.findById(id);
-  if (!existingUser) throw new Error("User not found");
+export async function deleteUser(email: string) {
+	const existingUser = await userRepository.findByEmail(email);
 
-  return userRepository.deactivate(id);
+	if (!existingUser) {
+		throw new Error('User not found');
+	}
+
+	return userRepository.deactivate(email);
 }
