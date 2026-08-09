@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import * as userService from '../services/user.service.js';
-import { successResponse, errorResponse } from '../models/base-response.js';
-import { ERR_STATUS_DATA_NOT_FOUND, ERR_STATUS_FIELD_REQUIRED_MISSING, ERR_STATUS_INTERNAL_SERVER_ERROR, ERR_STATUS_EMAIL_EXIST } from '../static/static-response-error-messages.js';
+import * as userService from '../../services/users/user.service.js';
+import { successResponse, errorResponse } from '../../models/base-response.js';
+import { ERR_STATUS_DATA_NOT_FOUND, ERR_STATUS_FIELD_REQUIRED_MISSING, ERR_STATUS_INTERNAL_SERVER_ERROR, ERR_STATUS_EMAIL_EXIST } from '../../static/static-response-error-messages.js';
 
 export async function getUsers(req: Request, res: Response) {
 	try {

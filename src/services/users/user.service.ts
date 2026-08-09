@@ -1,5 +1,5 @@
-import * as userRepository from '../repositories/user.repository.js';
-import { CreateUserRequest, UpdateUserRequest } from '../types/user.js';
+import * as userRepository from '../../repositories/users/user.repository.js';
+import { CreateUserRequest, UpdateUserRequest } from '../../types/users/user.js';
 
 export async function getUsers() {
 	return userRepository.findAll();

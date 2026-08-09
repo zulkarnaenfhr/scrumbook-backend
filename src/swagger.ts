@@ -42,23 +42,18 @@ const swaggerDefinition = {
 				type: 'object',
 				required: ['email', 'name', 'password_hash', 'is_active', 'created_at', 'updated_at'],
 				properties: {
-					id: {
-						type: 'string',
-						format: 'uuid',
-						example: '3562239c-885a-4715-bc5a-41b8c22cf049',
-					},
 					email: {
 						type: 'string',
 						format: 'email',
-						example: 'uler@gmail.com',
+						example: 'fahri@example.com',
 					},
 					name: {
 						type: 'string',
-						example: 'Super User',
+						example: 'Fahri Izzuddin Zulkarnaen',
 					},
 					password_hash: {
 						type: 'string',
-						example: 'Super User',
+						example: 'password123',
 					},
 					is_active: {
 						type: 'boolean',
@@ -85,7 +80,7 @@ const swaggerDefinition = {
 					},
 					name: {
 						type: 'string',
-						example: 'fahri zulkarnaen',
+						example: 'Fahri Izzuddin Zulkarnaen',
 					},
 					password: {
 						type: 'string',
@@ -103,7 +98,7 @@ const swaggerDefinition = {
 					},
 					name: {
 						type: 'string',
-						example: 'fahri zulkarnaen Updated',
+						example: 'Fahri Izzuddin Zulkarnaen Updated',
 					},
 					is_active: {
 						type: 'boolean',
@@ -150,5 +145,5 @@ const swaggerDefinition = {
 
 export const swaggerSpec = swaggerJSDoc({
 	definition: swaggerDefinition,
-	apis: ['./src/routes/*.ts'],
+	apis: ['./src/routes/users/*.ts'],
 });

@@ -1,11 +1,5 @@
-import { Router } from "express";
-import {
-  getUsers,
-  getUser,
-  createUser,
-  updateUser,
-  deleteUser
-} from "../controllers/user.controller.js";
+import { Router } from 'express';
+import { getUsers, getUser, createUser, updateUser, deleteUser } from '../../controllers/users/user.controller.js';
 
 const router = Router();
 
@@ -26,7 +20,7 @@ const router = Router();
  *               items:
  *                 $ref: '#/components/schemas/User'
  */
-router.get("/", getUsers);
+router.get('/', getUsers);
 
 /**
  * @swagger
@@ -47,7 +41,7 @@ router.get("/", getUsers);
  *       404:
  *         description: User not found
  */
-router.get("/:email", getUser);
+router.get('/:email', getUser);
 
 /**
  * @swagger
@@ -76,7 +70,7 @@ router.get("/:email", getUser);
  *       409:
  *         description: Email already exists
  */
-router.post("/", createUser);
+router.post('/', createUser);
 
 /**
  * @swagger
@@ -104,7 +98,7 @@ router.post("/", createUser);
  *       409:
  *         description: Email already exists
  */
-router.put("/:email", updateUser);
+router.put('/:email', updateUser);
 
 /**
  * @swagger
@@ -122,6 +116,6 @@ router.put("/:email", updateUser);
  *       404:
  *         description: User not found
  */
-router.delete("/:email", deleteUser);
+router.delete('/:email', deleteUser);
 
 export default router;

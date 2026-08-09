@@ -1,5 +1,5 @@
-import { pool } from '../config/database.js';
-import { CreateUserRequest, UpdateUserRequest } from '../types/user.js';
+import { pool } from '../../config/database.js';
+import { CreateUserRequest, UpdateUserRequest } from '../../types/users/user.js';
 
 export async function findAll() {
 	const result = await pool.query(`

@@ -3,7 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import swaggerUi from "swagger-ui-express";
 
-import userRoutes from "./routes/user.routes.js";
+import userRoutes from "./routes/users/user.routes.js";
 import { errorMiddleware } from "./middlewares/error.middleware.js";
 import { swaggerSpec } from "./swagger.js";
 
