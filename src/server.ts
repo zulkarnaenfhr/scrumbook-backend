@@ -1,6 +1,7 @@
 import app from "./app.js";
 import { pool } from "./config/database.js";
 
+
 const PORT = Number(process.env.PORT || 4000);
 
 async function startServer() {

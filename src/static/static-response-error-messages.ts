@@ -22,6 +22,13 @@ export const ERR_STATUS_FIELD_REQUIRED_MISSING = {
 	},
 };
 
+export const ERR_STATUS_DATA_EXIST = {
+	error_code: 'SCB400004',
+	error_message: {
+		en: 'Data Already Exists',
+		id: 'Data Sudah Digunakan',
+	},
+};
 
 // ================= error 500 =================
 export const ERR_STATUS_INTERNAL_SERVER_ERROR = {

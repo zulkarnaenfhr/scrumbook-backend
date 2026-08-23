@@ -22,6 +22,10 @@ const swaggerDefinition = {
 			name: 'Users',
 			description: 'User management endpoints',
 		},
+		{
+			name: 'Business Units',
+			description: 'Business unit management endpoints',
+		},
 	],
 	components: {
 		parameters: {
@@ -66,6 +70,62 @@ const swaggerDefinition = {
 					updated_at: {
 						type: 'string',
 						format: 'date-time',
+					},
+				},
+			},
+			BusinessUnit: {
+				type: 'object',
+				required: ['id', 'name', 'is_active', 'created_at', 'updated_at'],
+				properties: {
+					id: {
+						type: 'integer',
+						format: 'int64',
+						example: 1,
+					},
+					name: {
+						type: 'string',
+						example: 'Digital Banking',
+					},
+					is_active: {
+						type: 'boolean',
+						example: true,
+					},
+					created_at: {
+						type: 'string',
+						format: 'date-time',
+						example: '2026-08-09T08:00:00.000Z',
+					},
+					updated_at: {
+						type: 'string',
+						format: 'date-time',
+						example: '2026-08-09T08:00:00.000Z',
+					},
+				},
+			},
+
+			CreateBusinessUnitRequest: {
+				type: 'object',
+				required: ['name'],
+				properties: {
+					name: {
+						type: 'string',
+						maxLength: 150,
+						example: 'Digital Banking',
+					},
+				},
+			},
+
+			UpdateBusinessUnitRequest: {
+				type: 'object',
+				properties: {
+					name: {
+						type: 'string',
+						maxLength: 150,
+						example: 'Digital Banking Updated',
+					},
+					is_active: {
+						type: 'boolean',
+						example: true,
 					},
 				},
 			},
@@ -145,5 +205,5 @@ const swaggerDefinition = {
 
 export const swaggerSpec = swaggerJSDoc({
 	definition: swaggerDefinition,
-	apis: ['./src/routes/users/*.ts'],
+	apis: ['./src/routes/**/*.ts'],
 });
