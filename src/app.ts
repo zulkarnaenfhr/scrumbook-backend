@@ -7,6 +7,7 @@ import userRoutes from './routes/users/user.routes.js';
 import { errorMiddleware } from './middlewares/error.middleware.js';
 import { swaggerSpec } from './swagger.js';
 import businessUnitRoutes from './routes/business-units/business-units.routes.js';
+import organizationRoutes from './routes/organization/organization.routes.js';
 
 dotenv.config();
 
@@ -46,6 +47,8 @@ app.use(
 
 	businessUnitRoutes,
 );
+
+app.use('/api/organizations', organizationRoutes);
 
 app.use(errorMiddleware);
 

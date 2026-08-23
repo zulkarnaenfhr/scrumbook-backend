@@ -26,6 +26,10 @@ const swaggerDefinition = {
 			name: 'Business Units',
 			description: 'Business unit management endpoints',
 		},
+		{
+			name: 'Organizations',
+			description: 'Organization management endpoints',
+		},
 	],
 	components: {
 		parameters: {
@@ -102,7 +106,70 @@ const swaggerDefinition = {
 					},
 				},
 			},
+			Organization: {
+				type: 'object',
+				required: ['id', 'name', 'created_at', 'updated_at'],
+				properties: {
+					id: {
+						type: 'integer',
+						format: 'int64',
+						example: 1,
+					},
+					name: {
+						type: 'string',
+						maxLength: 255,
+						example: 'BCA Digital',
+					},
+					code: {
+						type: 'string',
+						maxLength: 100,
+						nullable: true,
+						example: 'BCA-DIGITAL',
+					},
+					created_at: {
+						type: 'string',
+						format: 'date-time',
+					},
+					updated_at: {
+						type: 'string',
+						format: 'date-time',
+					},
+				},
+			},
 
+			CreateOrganizationRequest: {
+				type: 'object',
+				required: ['name'],
+				properties: {
+					name: {
+						type: 'string',
+						maxLength: 255,
+						example: 'BCA Digital',
+					},
+					code: {
+						type: 'string',
+						maxLength: 100,
+						example: 'BCA-DIGITAL',
+					},
+				},
+			},
+
+			UpdateOrganizationRequest: {
+				type: 'object',
+				properties: {
+					name: {
+						type: 'string',
+						maxLength: 255,
+						example: 'BCA Digital Updated',
+					},
+					code: {
+						type: 'string',
+						maxLength: 100,
+						nullable: true,
+						example: 'BCA-DIGITAL',
+					},
+				},
+			},
 			CreateBusinessUnitRequest: {
 				type: 'object',
 				required: ['name'],
