@@ -709,6 +709,57 @@ const swaggerDefinition = {
 				},
 			},
 
+			Task: {
+				type: 'object',
+				required: ['id', 'title', 'user_id', 'priority', 'status', 'created_at'],
+				properties: {
+					id: { type: 'string', example: '1' },
+					project_id: { type: 'string', nullable: true, example: '1' },
+					title: { type: 'string', example: 'Design database schema' },
+					detail: { type: 'string', nullable: true, example: 'Design normalized schema for scrum module' },
+					user_id: { type: 'string', format: 'uuid', example: '0053d6c6-f44a-4baf-98c1-ce9ab9cccafb' },
+					target: { type: 'string', format: 'date-time', nullable: true },
+					priority: { type: 'string', example: 'high' },
+					created_by: { type: 'string', nullable: true, example: 'fahri' },
+					updated_by: { type: 'string', nullable: true, example: 'fahri' },
+					created_at: { type: 'string', format: 'date-time' },
+					updated_at: { type: 'string', format: 'date-time', nullable: true },
+					status: { type: 'string', example: 'in_progress' },
+					timeline_id: { type: 'string', nullable: true, example: '1' },
+				},
+			},
+
+			CreateTaskRequest: {
+				type: 'object',
+				required: ['title', 'user_id', 'priority', 'status'],
+				properties: {
+					project_id: { type: 'string', example: '1' },
+					title: { type: 'string', example: 'Design database schema' },
+					detail: { type: 'string', example: 'Design normalized schema for scrum module' },
+					user_id: { type: 'string', format: 'uuid', example: '0053d6c6-f44a-4baf-98c1-ce9ab9cccafb' },
+					target: { type: 'string', format: 'date-time' },
+					priority: { type: 'string', example: 'high' },
+					created_by: { type: 'string', example: 'fahri' },
+					updated_by: { type: 'string', example: 'fahri' },
+					status: { type: 'string', example: 'todo' },
+					timeline_id: { type: 'string', example: '1' },
+				},
+			},
+
+			UpdateTaskRequest: {
+				type: 'object',
+				properties: {
+					project_id: { type: 'string', example: '1' },
+					title: { type: 'string', example: 'Design database schema' },
+					detail: { type: 'string', example: 'Design normalized schema for scrum module' },
+					target: { type: 'string', format: 'date-time' },
+					priority: { type: 'string', example: 'medium' },
+					updated_by: { type: 'string', example: 'fahri' },
+					status: { type: 'string', example: 'done' },
+					timeline_id: { type: 'string', example: '1' },
+				},
+			},
+
 			Error: {
 				type: 'object',
 				properties: {

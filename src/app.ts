@@ -16,6 +16,7 @@ import changelogRoutes from './routes/changelogs/changelogs.routes.js';
 import accessRoutes from './routes/access/access.routes.js';
 import projectRoutes from './routes/projects/projects.routes.js';
 import projectConstraintRoutes from './routes/project-constraints/project-constraint.routes.js';
+import taskRoutes from './routes/tasks/task.routes.js';
 
 dotenv.config();
 
@@ -64,6 +65,7 @@ app.use('/api/flows', flowRoutes);
 app.use('/api/changelogs', changelogRoutes);
 app.use('/api/access', accessRoutes);
 app.use('/api/project-constraints', projectConstraintRoutes);
+app.use('/api/tasks', taskRoutes);
 
 app.use('/api/organization-members', organizationMemberRoutes);
 
