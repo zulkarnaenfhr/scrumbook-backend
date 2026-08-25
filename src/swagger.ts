@@ -465,6 +465,66 @@ const swaggerDefinition = {
 				},
 			},
 
+			Document: {
+				type: 'object',
+				required: ['id', 'code', 'category', 'type', 'created_by', 'updated_by', 'created_at', 'updated_at', 'user_id', 'is_redirect'],
+				properties: {
+					id: { type: 'string', example: '1' },
+					code: { type: 'string', example: 'DOC-001' },
+					project_id: { type: 'string', nullable: true, example: '1' },
+					category: { type: 'string', example: 'Technical Spec' },
+					summary: { type: 'string', nullable: true, example: 'API design overview' },
+					content: { type: 'string', nullable: true, example: 'Full document content here...' },
+					type: { type: 'string', example: 'markdown' },
+					url: { type: 'string', nullable: true, example: 'https://docs.example.com/doc-001' },
+					version: { type: 'integer', nullable: true, example: 1 },
+					created_by: { type: 'string', example: 'fahri' },
+					updated_by: { type: 'string', example: 'fahri' },
+					created_at: { type: 'string', format: 'date-time' },
+					updated_at: { type: 'string', format: 'date-time' },
+					title: { type: 'string', nullable: true, example: 'API Design Document' },
+					user_id: { type: 'string', format: 'uuid', example: '0053d6c6-f44a-4baf-98c1-ce9ab9cccafb' },
+					is_redirect: { type: 'boolean', example: false },
+				},
+			},
+
+			CreateDocumentRequest: {
+				type: 'object',
+				required: ['code', 'category', 'type', 'created_by', 'updated_by', 'user_id'],
+				properties: {
+					code: { type: 'string', example: 'DOC-001' },
+					project_id: { type: 'string', example: '1' },
+					category: { type: 'string', example: 'Technical Spec' },
+					summary: { type: 'string', example: 'API design overview' },
+					content: { type: 'string', example: 'Full document content here...' },
+					type: { type: 'string', example: 'markdown' },
+					url: { type: 'string', example: 'https://docs.example.com/doc-001' },
+					version: { type: 'integer', example: 1 },
+					created_by: { type: 'string', example: 'fahri' },
+					updated_by: { type: 'string', example: 'fahri' },
+					title: { type: 'string', example: 'API Design Document' },
+					user_id: { type: 'string', format: 'uuid', example: '0053d6c6-f44a-4baf-98c1-ce9ab9cccafb' },
+					is_redirect: { type: 'boolean', example: false },
+				},
+			},
+
+			UpdateDocumentRequest: {
+				type: 'object',
+				properties: {
+					code: { type: 'string', example: 'DOC-001' },
+					project_id: { type: 'string', example: '1' },
+					category: { type: 'string', example: 'Technical Spec' },
+					summary: { type: 'string', example: 'API design overview' },
+					content: { type: 'string', example: 'Full document content here...' },
+					type: { type: 'string', example: 'markdown' },
+					url: { type: 'string', example: 'https://docs.example.com/doc-001' },
+					version: { type: 'integer', example: 1 },
+					updated_by: { type: 'string', example: 'fahri' },
+					title: { type: 'string', example: 'API Design Document' },
+					is_redirect: { type: 'boolean', example: false },
+				},
+			},
+
 			Error: {
 				type: 'object',
 				properties: {
