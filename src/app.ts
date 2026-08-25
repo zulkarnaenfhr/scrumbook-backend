@@ -43,6 +43,11 @@ app.use(
 	swaggerUi.serve,
 	swaggerUi.setup(swaggerSpec, {
 		customSiteTitle: 'ScrumBook API Documentation',
+		swaggerOptions: {
+			docExpansion: 'none',
+
+			defaultModelsExpandDepth: -1,
+		},
 	}),
 );
 
@@ -51,13 +56,7 @@ app.get('/api-docs.json', (req, res) => {
 });
 
 app.use('/api/users', userRoutes);
-
-app.use(
-	'/api/business-units',
-
-	businessUnitRoutes,
-);
-
+app.use('/api/business-units', businessUnitRoutes);
 app.use('/api/organizations', organizationRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/timelines', timelineRoutes);

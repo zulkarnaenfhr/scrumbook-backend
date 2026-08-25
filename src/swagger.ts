@@ -16,19 +16,59 @@ const swaggerDefinition = {
 	tags: [
 		{
 			name: 'System',
-			description: 'System endpoints',
+			description: 'System and database health endpoints',
 		},
 		{
 			name: 'Users',
 			description: 'User management endpoints',
 		},
 		{
-			name: 'Business Units',
-			description: 'Business unit management endpoints',
-		},
-		{
 			name: 'Organizations',
 			description: 'Organization management endpoints',
+		},
+		{
+			name: 'Organization Members',
+			description: 'Organization member management endpoints',
+		},
+		{
+			name: 'Projects',
+			description: 'Project management endpoints',
+		},
+		{
+			name: 'Timeline',
+			description: 'Project timeline management endpoints',
+		},
+		{
+			name: 'Tasks',
+			description: 'Task management endpoints',
+		},
+		{
+			name: 'Documents',
+			description: 'Project document management endpoints',
+		},
+		{
+			name: 'Flow',
+			description: 'Project flow management endpoints',
+		},
+		{
+			name: 'Changelog',
+			description: 'Project changelog management endpoints',
+		},
+		{
+			name: 'Project Constraints',
+			description: 'Project constraint management endpoints',
+		},
+		{
+			name: 'Corresponding Teams',
+			description: 'Corresponding team management endpoints',
+		},
+		{
+			name: 'Access',
+			description: 'Access and permission management endpoints',
+		},
+		{
+			name: 'Authentication / Authorization',
+			description: 'Authentication and authorization endpoints',
 		},
 	],
 	components: {
@@ -104,63 +144,6 @@ const swaggerDefinition = {
 						type: 'string',
 						format: 'email',
 						example: 'fahri.updated@example.com',
-					},
-				},
-			},
-
-			BusinessUnit: {
-				type: 'object',
-				required: ['id', 'name', 'is_active', 'created_at', 'updated_at'],
-				properties: {
-					id: {
-						type: 'integer',
-						format: 'int64',
-						example: 1,
-					},
-					name: {
-						type: 'string',
-						example: 'Digital Banking',
-					},
-					is_active: {
-						type: 'boolean',
-						example: true,
-					},
-					created_at: {
-						type: 'string',
-						format: 'date-time',
-						example: '2026-08-09T08:00:00.000Z',
-					},
-					updated_at: {
-						type: 'string',
-						format: 'date-time',
-						example: '2026-08-09T08:00:00.000Z',
-					},
-				},
-			},
-
-			CreateBusinessUnitRequest: {
-				type: 'object',
-				required: ['name'],
-				properties: {
-					name: {
-						type: 'string',
-						maxLength: 150,
-						example: 'Digital Banking',
-					},
-				},
-			},
-
-			UpdateBusinessUnitRequest: {
-				type: 'object',
-				properties: {
-					name: {
-						type: 'string',
-						maxLength: 150,
-						example: 'Digital Banking Updated',
-					},
-					is_active: {
-						type: 'boolean',
-						example: true,
 					},
 				},
 			},
@@ -244,6 +227,63 @@ const swaggerDefinition = {
 					updated_by: {
 						type: 'string',
 						example: 'fahri',
+					},
+				},
+			},
+
+			BusinessUnit: {
+				type: 'object',
+				required: ['id', 'name', 'is_active', 'created_at', 'updated_at'],
+				properties: {
+					id: {
+						type: 'integer',
+						format: 'int64',
+						example: 1,
+					},
+					name: {
+						type: 'string',
+						example: 'Digital Banking',
+					},
+					is_active: {
+						type: 'boolean',
+						example: true,
+					},
+					created_at: {
+						type: 'string',
+						format: 'date-time',
+						example: '2026-08-09T08:00:00.000Z',
+					},
+					updated_at: {
+						type: 'string',
+						format: 'date-time',
+						example: '2026-08-09T08:00:00.000Z',
+					},
+				},
+			},
+
+			CreateBusinessUnitRequest: {
+				type: 'object',
+				required: ['name'],
+				properties: {
+					name: {
+						type: 'string',
+						maxLength: 150,
+						example: 'Digital Banking',
+					},
+				},
+			},
+
+			UpdateBusinessUnitRequest: {
+				type: 'object',
+				properties: {
+					name: {
+						type: 'string',
+						maxLength: 150,
+						example: 'Digital Banking Updated',
+					},
+					is_active: {
+						type: 'boolean',
+						example: true,
 					},
 				},
 			},
