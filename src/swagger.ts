@@ -574,6 +574,20 @@ const swaggerDefinition = {
 				},
 			},
 
+			UpdateFlowRequest: {
+				type: 'object',
+				properties: {
+					node: { type: 'array', items: { type: 'object' }, example: [{ id: 'n1', type: 'start', position: { x: 0, y: 0 } }] },
+					updated_by: { type: 'string', example: 'fahri' },
+					title: { type: 'string', example: 'Approval Flow' },
+					description: { type: 'string', example: 'Loan approval process' },
+					is_publish: { type: 'boolean', example: true },
+					edge: { type: 'array', items: { type: 'object' }, example: [{ id: 'e1', source: 'n1', target: 'n2' }] },
+					code: { type: 'string', example: 'FLOW-001' },
+					version: { type: 'integer', example: 2 },
+				},
+			},
+
 			Changelog: {
 				type: 'object',
 				required: ['id', 'code', 'project_id', 'log', 'created_by', 'updated_by', 'created_at', 'updated_at'],
@@ -610,17 +624,46 @@ const swaggerDefinition = {
 				},
 			},
 
-			UpdateFlowRequest: {
+			Access: {
+				type: 'object',
+				required: ['id', 'item_id', 'view', 'create_permission', 'write', 'delete', 'user_id', 'type', 'username', 'created_at'],
+				properties: {
+					id: { type: 'string', example: '1' },
+					item_id: { type: 'string', example: '1' },
+					view: { type: 'boolean', example: true },
+					create_permission: { type: 'boolean', example: true },
+					write: { type: 'boolean', example: false },
+					delete: { type: 'boolean', example: false },
+					user_id: { type: 'string', format: 'uuid', example: '0053d6c6-f44a-4baf-98c1-ce9ab9cccafb' },
+					type: { type: 'string', example: 'project' },
+					username: { type: 'string', example: 'fahri' },
+					created_at: { type: 'string', format: 'date-time' },
+				},
+			},
+
+			CreateAccessRequest: {
+				type: 'object',
+				required: ['item_id', 'view', 'create_permission', 'write', 'delete', 'user_id', 'type'],
+				properties: {
+					item_id: { type: 'string', example: '1' },
+					view: { type: 'boolean', example: true },
+					create_permission: { type: 'boolean', example: true },
+					write: { type: 'boolean', example: false },
+					delete: { type: 'boolean', example: false },
+					user_id: { type: 'string', format: 'uuid', example: '0053d6c6-f44a-4baf-98c1-ce9ab9cccafb' },
+					type: { type: 'string', example: 'project' },
+					username: { type: 'string', example: 'fahri' },
+				},
+			},
+
+			UpdateAccessRequest: {
 				type: 'object',
 				properties: {
-					node: { type: 'array', items: { type: 'object' }, example: [{ id: 'n1', type: 'start', position: { x: 0, y: 0 } }] },
-					updated_by: { type: 'string', example: 'fahri' },
-					title: { type: 'string', example: 'Approval Flow' },
-					description: { type: 'string', example: 'Loan approval process' },
-					is_publish: { type: 'boolean', example: true },
-					edge: { type: 'array', items: { type: 'object' }, example: [{ id: 'e1', source: 'n1', target: 'n2' }] },
-					code: { type: 'string', example: 'FLOW-001' },
-					version: { type: 'integer', example: 2 },
+					view: { type: 'boolean', example: true },
+					create_permission: { type: 'boolean', example: true },
+					write: { type: 'boolean', example: true },
+					delete: { type: 'boolean', example: false },
+					username: { type: 'string', example: 'fahri' },
 				},
 			},
 
