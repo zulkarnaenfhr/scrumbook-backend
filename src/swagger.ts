@@ -525,6 +525,69 @@ const swaggerDefinition = {
 				},
 			},
 
+			Flow: {
+				type: 'object',
+				required: ['id', 'title', 'is_publish', 'created_by', 'updated_by', 'created_at', 'updated_at', 'code', 'user_id', 'project_id'],
+				properties: {
+					id: { type: 'string', example: '1' },
+					node: {
+						type: 'array',
+						nullable: true,
+						items: { type: 'object' },
+						example: [{ id: 'n1', type: 'start', position: { x: 0, y: 0 } }],
+					},
+					created_by: { type: 'string', example: 'fahri' },
+					updated_by: { type: 'string', example: 'fahri' },
+					created_at: { type: 'string', format: 'date-time' },
+					updated_at: { type: 'string', format: 'date-time' },
+					title: { type: 'string', example: 'Approval Flow' },
+					description: { type: 'string', nullable: true, example: 'Loan approval process' },
+					is_publish: { type: 'boolean', example: false },
+					edge: {
+						type: 'array',
+						nullable: true,
+						items: { type: 'object' },
+						example: [{ id: 'e1', source: 'n1', target: 'n2' }],
+					},
+					code: { type: 'string', example: 'FLOW-001' },
+					version: { type: 'integer', nullable: true, example: 1 },
+					user_id: { type: 'string', format: 'uuid', example: '0053d6c6-f44a-4baf-98c1-ce9ab9cccafb' },
+					project_id: { type: 'string', example: '1' },
+				},
+			},
+
+			CreateFlowRequest: {
+				type: 'object',
+				required: ['title', 'is_publish', 'created_by', 'updated_by', 'code', 'user_id', 'project_id'],
+				properties: {
+					node: { type: 'array', items: { type: 'object' }, example: [{ id: 'n1', type: 'start', position: { x: 0, y: 0 } }] },
+					created_by: { type: 'string', example: 'fahri' },
+					updated_by: { type: 'string', example: 'fahri' },
+					title: { type: 'string', example: 'Approval Flow' },
+					description: { type: 'string', example: 'Loan approval process' },
+					is_publish: { type: 'boolean', example: false },
+					edge: { type: 'array', items: { type: 'object' }, example: [{ id: 'e1', source: 'n1', target: 'n2' }] },
+					code: { type: 'string', example: 'FLOW-001' },
+					version: { type: 'integer', example: 1 },
+					user_id: { type: 'string', format: 'uuid', example: '0053d6c6-f44a-4baf-98c1-ce9ab9cccafb' },
+					project_id: { type: 'string', example: '1' },
+				},
+			},
+
+			UpdateFlowRequest: {
+				type: 'object',
+				properties: {
+					node: { type: 'array', items: { type: 'object' }, example: [{ id: 'n1', type: 'start', position: { x: 0, y: 0 } }] },
+					updated_by: { type: 'string', example: 'fahri' },
+					title: { type: 'string', example: 'Approval Flow' },
+					description: { type: 'string', example: 'Loan approval process' },
+					is_publish: { type: 'boolean', example: true },
+					edge: { type: 'array', items: { type: 'object' }, example: [{ id: 'e1', source: 'n1', target: 'n2' }] },
+					code: { type: 'string', example: 'FLOW-001' },
+					version: { type: 'integer', example: 2 },
+				},
+			},
+
 			Error: {
 				type: 'object',
 				properties: {
