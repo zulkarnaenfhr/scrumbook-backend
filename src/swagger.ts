@@ -667,6 +667,48 @@ const swaggerDefinition = {
 				},
 			},
 
+			ProjectConstraint: {
+				type: 'object',
+				required: ['id', 'name', 'start', 'status', 'project_id', 'created_by', 'updated_by', 'created_at', 'updated_at'],
+				properties: {
+					id: { type: 'string', example: '1' },
+					name: { type: 'string', example: 'Regulatory Approval' },
+					start: { type: 'string', format: 'date-time' },
+					status: { type: 'string', example: 'pending' },
+					detail: { type: 'string', nullable: true, example: 'Waiting for OJK approval' },
+					project_id: { type: 'string', example: '1' },
+					created_by: { type: 'string', example: 'fahri' },
+					updated_by: { type: 'string', example: 'fahri' },
+					created_at: { type: 'string', format: 'date-time' },
+					updated_at: { type: 'string', format: 'date-time' },
+				},
+			},
+
+			CreateProjectConstraintRequest: {
+				type: 'object',
+				required: ['name', 'start', 'status', 'project_id', 'created_by', 'updated_by'],
+				properties: {
+					name: { type: 'string', example: 'Regulatory Approval' },
+					start: { type: 'string', format: 'date-time' },
+					status: { type: 'string', example: 'pending' },
+					detail: { type: 'string', example: 'Waiting for OJK approval' },
+					project_id: { type: 'string', example: '1' },
+					created_by: { type: 'string', example: 'fahri' },
+					updated_by: { type: 'string', example: 'fahri' },
+				},
+			},
+
+			UpdateProjectConstraintRequest: {
+				type: 'object',
+				properties: {
+					name: { type: 'string', example: 'Regulatory Approval' },
+					start: { type: 'string', format: 'date-time' },
+					status: { type: 'string', example: 'resolved' },
+					detail: { type: 'string', example: 'Waiting for OJK approval' },
+					updated_by: { type: 'string', example: 'fahri' },
+				},
+			},
+
 			Error: {
 				type: 'object',
 				properties: {
