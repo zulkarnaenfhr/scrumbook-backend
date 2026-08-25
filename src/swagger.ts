@@ -746,6 +746,48 @@ const swaggerDefinition = {
 				},
 			},
 
+			CorrespondingTeam: {
+				type: 'object',
+				required: ['id', 'project_id', 'name', 'created_by', 'updated_by', 'created_at', 'updated_at', 'code'],
+				properties: {
+					id: { type: 'string', example: '1' },
+					project_id: { type: 'string', example: '1' },
+					name: { type: 'string', example: 'Infrastructure Team' },
+					pic: { type: 'string', nullable: true, example: 'Budi Santoso' },
+					description: { type: 'string', nullable: true, example: 'Handles server provisioning and deployment' },
+					created_by: { type: 'string', example: 'fahri' },
+					updated_by: { type: 'string', example: 'fahri' },
+					created_at: { type: 'string', format: 'date-time' },
+					updated_at: { type: 'string', format: 'date-time' },
+					code: { type: 'string', example: 'CT-001' },
+				},
+			},
+
+			CreateCorrespondingTeamRequest: {
+				type: 'object',
+				required: ['project_id', 'name', 'created_by', 'updated_by', 'code'],
+				properties: {
+					project_id: { type: 'string', example: '1' },
+					name: { type: 'string', example: 'Infrastructure Team' },
+					pic: { type: 'string', example: 'Budi Santoso' },
+					description: { type: 'string', example: 'Handles server provisioning and deployment' },
+					created_by: { type: 'string', example: 'fahri' },
+					updated_by: { type: 'string', example: 'fahri' },
+					code: { type: 'string', example: 'CT-001' },
+				},
+			},
+
+			UpdateCorrespondingTeamRequest: {
+				type: 'object',
+				properties: {
+					name: { type: 'string', example: 'Infrastructure Team' },
+					pic: { type: 'string', example: 'Budi Santoso' },
+					description: { type: 'string', example: 'Handles server provisioning and deployment' },
+					updated_by: { type: 'string', example: 'fahri' },
+					code: { type: 'string', example: 'CT-001' },
+				},
+			},
+
 			UpdateTaskRequest: {
 				type: 'object',
 				properties: {
