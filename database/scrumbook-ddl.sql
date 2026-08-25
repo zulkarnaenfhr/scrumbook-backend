@@ -76,6 +76,10 @@ CREATE TABLE scrum.organization_member (
         REFERENCES scrum.users(id)
 );
 
+ALTER TABLE scrum.organization_member
+ADD CONSTRAINT organization_member_organization_user_unique
+UNIQUE (organization_id, user_id);
+
 
 -- =========================================================
 -- PROJECT
