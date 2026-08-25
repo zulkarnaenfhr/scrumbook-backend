@@ -9,6 +9,7 @@ import { swaggerSpec } from './swagger.js';
 import businessUnitRoutes from './routes/business-units/business-units.routes.js';
 import organizationRoutes from './routes/organization/organization.routes.js';
 import organizationMemberRoutes from './routes/organization-members/organization-members.routes.js';
+import projectRoutes from './routes/projects/projects.routes.js';
 
 dotenv.config();
 
@@ -50,6 +51,7 @@ app.use(
 );
 
 app.use('/api/organizations', organizationRoutes);
+app.use('/api/projects', projectRoutes);
 
 app.use('/api/organization-members', organizationMemberRoutes);
 
