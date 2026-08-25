@@ -5,8 +5,8 @@ export async function getUsers() {
 	return userRepository.findAll();
 }
 
-export async function getUserByEmail(email: string) {
-	const user = await userRepository.findByEmail(email);
+export async function getUserById(id: string) {
+	const user = await userRepository.findById(id);
 
 	if (!user) {
 		throw new Error('User not found');
@@ -16,59 +16,59 @@ export async function getUserByEmail(email: string) {
 }
 
 export async function createUser(data: CreateUserRequest) {
-	const email = data.email.trim().toLowerCase();
-	const name = data.name.trim();
-	const password_hash = data.password_hash.trim();
+	const email = data.email?.trim().toLowerCase();
+	const username = data.username?.trim();
 
-	const existingUser = await userRepository.findByEmail(email);
+	if (!email && !username) {
+		throw new Error('Required field missing');
+	}
 
-	if (existingUser) {
-		throw new Error('Email already exists');
+	if (email) {
+		const existingUser = await userRepository.findByEmail(email);
+
+		if (existingUser) {
+			throw new Error('Email already exists');
+		}
 	}
 
 	return userRepository.create({
+		username,
 		email,
-		name,
-		password_hash,
 	});
 }
 
-export async function updateUser(email: string, data: UpdateUserRequest) {
-	const existingUser = await userRepository.findByEmail(email);
+export async function updateUser(id: string, data: UpdateUserRequest) {
+	const existingUser = await userRepository.findById(id);
 
 	if (!existingUser) {
 		throw new Error('User not found');
 	}
 
-	const updateData: UpdateUserRequest = {
-		...data,
-	};
+	if (data.email) {
+		const email = data.email.trim().toLowerCase();
 
-	if (updateData.email) {
-		const newEmail = updateData.email.trim().toLowerCase();
+		const existingEmail = await userRepository.findByEmail(email);
 
-		const existingEmail = await userRepository.findByEmail(newEmail);
-
-		if (existingEmail && existingEmail.email !== email) {
+		if (existingEmail && existingEmail.id !== id) {
 			throw new Error('Email already exists');
 		}
 
-		updateData.email = newEmail;
+		data.email = email;
 	}
 
-	if (updateData.name) {
-		updateData.name = updateData.name.trim();
+	if (data.username) {
+		data.username = data.username.trim();
 	}
 
-	return userRepository.update(email, updateData);
+	return userRepository.update(id, data);
 }
 
-export async function deleteUser(email: string) {
-	const existingUser = await userRepository.findByEmail(email);
+export async function deleteUser(id: string) {
+	const existingUser = await userRepository.findById(id);
 
 	if (!existingUser) {
 		throw new Error('User not found');
 	}
 
-	return userRepository.deactivate(email);
+	return userRepository.deleteUser(id);
 }

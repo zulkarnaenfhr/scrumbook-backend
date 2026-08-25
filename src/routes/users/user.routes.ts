@@ -1,4 +1,5 @@
 import { Router } from 'express';
+
 import { getUsers, getUser, createUser, updateUser, deleteUser } from '../../controllers/users/user.controller.js';
 
 const router = Router();
@@ -12,36 +13,32 @@ const router = Router();
  *     summary: Get all users
  *     responses:
  *       200:
- *         description: List of users
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/User'
+ *         description: Users retrieved successfully
  */
 router.get('/', getUsers);
 
 /**
  * @swagger
- * /api/users/{email}:
+ * /api/users/{id}:
  *   get:
  *     tags:
  *       - Users
- *     summary: Get user by email
+ *     summary: Get user by ID
  *     parameters:
- *       - $ref: '#/components/parameters/UserEmail'
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: User UUID
+ *         schema:
+ *           type: string
+ *           format: uuid
  *     responses:
  *       200:
- *         description: User found
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/User'
+ *         description: User retrieved successfully
  *       404:
  *         description: User not found
  */
-router.get('/:email', getUser);
+router.get('/:id', getUser);
 
 /**
  * @swagger
@@ -49,73 +46,69 @@ router.get('/:email', getUser);
  *   post:
  *     tags:
  *       - Users
- *     summary: Create a user
+ *     summary: Create user
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/CreateUserRequest'
- *           example:
- *             email: fahri@example.com
- *             password_hash: password123
- *             name: Fahri Izzuddin Zulkarnaen
  *     responses:
  *       201:
- *         description: User created
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/User'
- *       409:
- *         description: Email already exists
+ *         description: User created successfully
+ *       400:
+ *         description: Invalid request
  */
 router.post('/', createUser);
 
 /**
  * @swagger
- * /api/users/{email}:
+ * /api/users/{id}:
  *   put:
  *     tags:
  *       - Users
- *     summary: Update a user
+ *     summary: Update user
  *     parameters:
- *       - $ref: '#/components/parameters/UserEmail'
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/UpdateUserRequest'
- *           example:
- *             name: Fahri Izzuddin Zulkarnaen Updated
- *             is_active: true
  *     responses:
  *       200:
- *         description: User updated
+ *         description: User updated successfully
  *       404:
  *         description: User not found
- *       409:
- *         description: Email already exists
  */
-router.put('/:email', updateUser);
+router.put('/:id', updateUser);
 
 /**
  * @swagger
- * /api/users/{email}:
+ * /api/users/{id}:
  *   delete:
  *     tags:
  *       - Users
- *     summary: Deactivate a user
- *     description: Soft deletes the user by setting is_active to false.
+ *     summary: Delete user
  *     parameters:
- *       - $ref: '#/components/parameters/UserEmail'
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
  *     responses:
  *       200:
- *         description: User deactivated
+ *         description: User deleted successfully
  *       404:
  *         description: User not found
  */
-router.delete('/:email', deleteUser);
+router.delete('/:id', deleteUser);
 
 export default router;

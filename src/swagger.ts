@@ -48,24 +48,23 @@ const swaggerDefinition = {
 		schemas: {
 			User: {
 				type: 'object',
-				required: ['email', 'name', 'password_hash', 'is_active', 'created_at', 'updated_at'],
+				required: ['id', 'username', 'email', 'created_at', 'updated_at'],
 				properties: {
+					id: {
+						type: 'string',
+						format: 'uuid',
+						example: '3562239c-885a-4715-bc5a-41b8c22cf049',
+					},
+					username: {
+						type: 'string',
+						example: 'fahri',
+						nullable: true,
+					},
 					email: {
 						type: 'string',
 						format: 'email',
 						example: 'fahri@example.com',
-					},
-					name: {
-						type: 'string',
-						example: 'Fahri Izzuddin Zulkarnaen',
-					},
-					password_hash: {
-						type: 'string',
-						example: 'password123',
-					},
-					is_active: {
-						type: 'boolean',
-						example: true,
+						nullable: true,
 					},
 					created_at: {
 						type: 'string',
@@ -77,6 +76,38 @@ const swaggerDefinition = {
 					},
 				},
 			},
+
+			CreateUserRequest: {
+				type: 'object',
+				required: ['username', 'email'],
+				properties: {
+					username: {
+						type: 'string',
+						example: 'fahri',
+					},
+					email: {
+						type: 'string',
+						format: 'email',
+						example: 'fahri@example.com',
+					},
+				},
+			},
+
+			UpdateUserRequest: {
+				type: 'object',
+				properties: {
+					username: {
+						type: 'string',
+						example: 'fahri_updated',
+					},
+					email: {
+						type: 'string',
+						format: 'email',
+						example: 'fahri.updated@example.com',
+					},
+				},
+			},
+
 			BusinessUnit: {
 				type: 'object',
 				required: ['id', 'name', 'is_active', 'created_at', 'updated_at'],
@@ -106,6 +137,34 @@ const swaggerDefinition = {
 					},
 				},
 			},
+
+			CreateBusinessUnitRequest: {
+				type: 'object',
+				required: ['name'],
+				properties: {
+					name: {
+						type: 'string',
+						maxLength: 150,
+						example: 'Digital Banking',
+					},
+				},
+			},
+
+			UpdateBusinessUnitRequest: {
+				type: 'object',
+				properties: {
+					name: {
+						type: 'string',
+						maxLength: 150,
+						example: 'Digital Banking Updated',
+					},
+					is_active: {
+						type: 'boolean',
+						example: true,
+					},
+				},
+			},
+
 			Organization: {
 				type: 'object',
 				required: ['id', 'name', 'created_at', 'updated_at'],
@@ -170,69 +229,7 @@ const swaggerDefinition = {
 					},
 				},
 			},
-			CreateBusinessUnitRequest: {
-				type: 'object',
-				required: ['name'],
-				properties: {
-					name: {
-						type: 'string',
-						maxLength: 150,
-						example: 'Digital Banking',
-					},
-				},
-			},
 
-			UpdateBusinessUnitRequest: {
-				type: 'object',
-				properties: {
-					name: {
-						type: 'string',
-						maxLength: 150,
-						example: 'Digital Banking Updated',
-					},
-					is_active: {
-						type: 'boolean',
-						example: true,
-					},
-				},
-			},
-			CreateUserRequest: {
-				type: 'object',
-				required: ['email', 'name', 'password'],
-				properties: {
-					email: {
-						type: 'string',
-						format: 'email',
-						example: 'fahri@example.com',
-					},
-					name: {
-						type: 'string',
-						example: 'Fahri Izzuddin Zulkarnaen',
-					},
-					password: {
-						type: 'string',
-						example: 'password123',
-					},
-				},
-			},
-			UpdateUserRequest: {
-				type: 'object',
-				properties: {
-					email: {
-						type: 'string',
-						format: 'email',
-						example: 'fahri@example.com',
-					},
-					name: {
-						type: 'string',
-						example: 'Fahri Izzuddin Zulkarnaen Updated',
-					},
-					is_active: {
-						type: 'boolean',
-						example: true,
-					},
-				},
-			},
 			Error: {
 				type: 'object',
 				properties: {

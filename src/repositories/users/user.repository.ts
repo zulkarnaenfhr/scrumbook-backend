@@ -3,31 +3,49 @@ import { CreateUserRequest, UpdateUserRequest } from '../../types/users/user.js'
 
 export async function findAll() {
 	const result = await pool.query(`
-    SELECT
-      email,
-      name,
-      is_active,
-      created_at,
-      updated_at
-    FROM scrumbook.users
-    ORDER BY created_at DESC
-  `);
+		SELECT
+			id,
+			username,
+			email,
+			created_at,
+			updated_at
+		FROM scrum.users
+		ORDER BY created_at DESC
+	`);
 
 	return result.rows;
+}
+
+export async function findById(id: string) {
+	const result = await pool.query(
+		`
+		SELECT
+			id,
+			username,
+			email,
+			created_at,
+			updated_at
+		FROM scrum.users
+		WHERE id = $1
+		`,
+		[id],
+	);
+
+	return result.rows[0] ?? null;
 }
 
 export async function findByEmail(email: string) {
 	const result = await pool.query(
 		`
-      SELECT
-        email,
-        name,
-        is_active,
-        created_at,
-        updated_at
-      FROM scrumbook.users
-      WHERE email = $1
-    `,
+		SELECT
+			id,
+			username,
+			email,
+			created_at,
+			updated_at
+		FROM scrum.users
+		WHERE email = $1
+		`,
 		[email],
 	);
 
@@ -37,64 +55,59 @@ export async function findByEmail(email: string) {
 export async function create(data: CreateUserRequest) {
 	const result = await pool.query(
 		`
-      INSERT INTO scrumbook.users (
-        email,
-        name,
-        password_hash
-      )
-      VALUES ($1, $2, $3)
-      RETURNING
-        email,
-        name,
-        is_active,
-        created_at,
-        updated_at
-    `,
-		[data.email, data.name, data.password_hash],
+		INSERT INTO scrum.users (
+			username,
+			email
+		)
+		VALUES ($1, $2)
+		RETURNING
+			id,
+			username,
+			email,
+			created_at,
+			updated_at
+		`,
+		[data.username ?? null, data.email ?? null],
 	);
 
 	return result.rows[0];
 }
 
-export async function update(email: string, data: UpdateUserRequest) {
+export async function update(id: string, data: UpdateUserRequest) {
 	const result = await pool.query(
 		`
-      UPDATE scrumbook.users
-      SET
-        email = COALESCE($1, email),
-        name = COALESCE($2, name),
-        is_active = COALESCE($3, is_active),
-        updated_at = NOW()
-      WHERE email = $4
-      RETURNING
-        email,
-        name,
-        is_active,
-        created_at,
-        updated_at
-    `,
-		[data.email ?? null, data.name ?? null, data.is_active ?? null, email],
+		UPDATE scrum.users
+		SET
+			username = COALESCE($1, username),
+			email = COALESCE($2, email),
+			updated_at = NOW()
+		WHERE id = $3
+		RETURNING
+			id,
+			username,
+			email,
+			created_at,
+			updated_at
+		`,
+		[data.username ?? null, data.email ?? null, id],
 	);
 
 	return result.rows[0] ?? null;
 }
 
-export async function deactivate(email: string) {
+export async function deleteUser(id: string) {
 	const result = await pool.query(
 		`
-      UPDATE scrumbook.users
-      SET
-        is_active = false,
-        updated_at = NOW()
-      WHERE email = $1
-      RETURNING
-        email,
-        name,
-        is_active,
-        created_at,
-        updated_at
-    `,
-		[email],
+		DELETE FROM scrum.users
+		WHERE id = $1
+		RETURNING
+			id,
+			username,
+			email,
+			created_at,
+			updated_at
+		`,
+		[id],
 	);
 
 	return result.rows[0] ?? null;
