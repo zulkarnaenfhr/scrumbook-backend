@@ -417,6 +417,54 @@ const swaggerDefinition = {
 				},
 			},
 
+			Timeline: {
+				type: 'object',
+				required: ['id', 'project_id', 'task', 'start', 'end', 'created_by', 'updated_by', 'created_at', 'updated_at', 'code'],
+				properties: {
+					id: { type: 'string', example: '1' },
+					project_id: { type: 'string', example: '1' },
+					task: { type: 'string', example: 'API Development' },
+					progress: { type: 'integer', nullable: true, example: 60 },
+					start: { type: 'string', format: 'date-time' },
+					end: { type: 'string', format: 'date-time' },
+					color: { type: 'string', nullable: true, example: '#4CAF50' },
+					created_by: { type: 'string', example: 'fahri' },
+					updated_by: { type: 'string', example: 'fahri' },
+					created_at: { type: 'string', format: 'date-time' },
+					updated_at: { type: 'string', format: 'date-time' },
+					code: { type: 'string', example: 'TL-001' },
+				},
+			},
+
+			CreateTimelineRequest: {
+				type: 'object',
+				required: ['project_id', 'task', 'start', 'end', 'created_by', 'updated_by', 'code'],
+				properties: {
+					project_id: { type: 'string', example: '1' },
+					task: { type: 'string', example: 'API Development' },
+					progress: { type: 'integer', example: 0 },
+					start: { type: 'string', format: 'date-time' },
+					end: { type: 'string', format: 'date-time' },
+					color: { type: 'string', example: '#4CAF50' },
+					created_by: { type: 'string', example: 'fahri' },
+					updated_by: { type: 'string', example: 'fahri' },
+					code: { type: 'string', example: 'TL-001' },
+				},
+			},
+
+			UpdateTimelineRequest: {
+				type: 'object',
+				properties: {
+					task: { type: 'string', example: 'API Development' },
+					progress: { type: 'integer', example: 60 },
+					start: { type: 'string', format: 'date-time' },
+					end: { type: 'string', format: 'date-time' },
+					color: { type: 'string', example: '#4CAF50' },
+					updated_by: { type: 'string', example: 'fahri' },
+					code: { type: 'string', example: 'TL-001' },
+				},
+			},
+
 			Error: {
 				type: 'object',
 				properties: {
