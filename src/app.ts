@@ -12,6 +12,7 @@ import organizationMemberRoutes from './routes/organization-members/organization
 import timelineRoutes from './routes/timelines/timelines.routes.js';
 import documentRoutes from './routes/documents/documents.routes.js';
 import flowRoutes from './routes/flows/flows.routes.js';
+import changelogRoutes from './routes/changelogs/changelogs.routes.js';
 import projectRoutes from './routes/projects/projects.routes.js';
 
 dotenv.config();
@@ -58,6 +59,7 @@ app.use('/api/projects', projectRoutes);
 app.use('/api/timelines', timelineRoutes);
 app.use('/api/documents', documentRoutes);
 app.use('/api/flows', flowRoutes);
+app.use('/api/changelogs', changelogRoutes);
 
 app.use('/api/organization-members', organizationMemberRoutes);
 

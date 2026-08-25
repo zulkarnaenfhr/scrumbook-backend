@@ -574,6 +574,42 @@ const swaggerDefinition = {
 				},
 			},
 
+			Changelog: {
+				type: 'object',
+				required: ['id', 'code', 'project_id', 'log', 'created_by', 'updated_by', 'created_at', 'updated_at'],
+				properties: {
+					id: { type: 'string', example: '1' },
+					code: { type: 'string', example: 'CHG-001' },
+					project_id: { type: 'string', example: '1' },
+					log: { type: 'string', example: 'Fixed login bug on mobile app' },
+					created_by: { type: 'string', example: 'fahri' },
+					updated_by: { type: 'string', example: 'fahri' },
+					created_at: { type: 'string', format: 'date-time' },
+					updated_at: { type: 'string', format: 'date-time' },
+				},
+			},
+
+			CreateChangelogRequest: {
+				type: 'object',
+				required: ['code', 'project_id', 'log', 'created_by', 'updated_by'],
+				properties: {
+					code: { type: 'string', example: 'CHG-001' },
+					project_id: { type: 'string', example: '1' },
+					log: { type: 'string', example: 'Fixed login bug on mobile app' },
+					created_by: { type: 'string', example: 'fahri' },
+					updated_by: { type: 'string', example: 'fahri' },
+				},
+			},
+
+			UpdateChangelogRequest: {
+				type: 'object',
+				properties: {
+					code: { type: 'string', example: 'CHG-001' },
+					log: { type: 'string', example: 'Fixed login bug on mobile app' },
+					updated_by: { type: 'string', example: 'fahri' },
+				},
+			},
+
 			UpdateFlowRequest: {
 				type: 'object',
 				properties: {
