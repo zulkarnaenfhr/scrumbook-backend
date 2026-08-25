@@ -248,6 +248,104 @@ const swaggerDefinition = {
 				},
 			},
 
+			OrganizationMember: {
+				type: 'object',
+				required: ['id', 'created_at', 'organization_id', 'user_id', 'level', 'created_by', 'updated_by', 'updated_at'],
+				properties: {
+					id: {
+						type: 'integer',
+						format: 'int64',
+						example: 1,
+					},
+					created_at: {
+						type: 'string',
+						format: 'date-time',
+					},
+					organization_id: {
+						type: 'integer',
+						format: 'int64',
+						example: 1,
+					},
+					user_id: {
+						type: 'string',
+						format: 'uuid',
+						example: '0053d6c6-f44a-4baf-98c1-ce9ab9cccafb',
+					},
+					level: {
+						type: 'string',
+						example: 'ADMIN',
+					},
+					created_by: {
+						type: 'string',
+						example: 'uler@gmail.com',
+					},
+					updated_by: {
+						type: 'string',
+						example: 'uler@gmail.com',
+					},
+					updated_at: {
+						type: 'string',
+						format: 'date-time',
+					},
+					username: {
+						type: 'string',
+						nullable: true,
+						example: 'fahri',
+					},
+				},
+			},
+
+			CreateOrganizationMemberRequest: {
+				type: 'object',
+				required: ['organization_id', 'user_id', 'level', 'created_by', 'updated_by'],
+				properties: {
+					organization_id: {
+						type: 'integer',
+						format: 'int64',
+						example: 1,
+					},
+					user_id: {
+						type: 'string',
+						format: 'uuid',
+						example: '0053d6c6-f44a-4baf-98c1-ce9ab9cccafb',
+					},
+					level: {
+						type: 'string',
+						example: 'ADMIN',
+					},
+					created_by: {
+						type: 'string',
+						example: 'uler@gmail.com',
+					},
+					updated_by: {
+						type: 'string',
+						example: 'uler@gmail.com',
+					},
+					username: {
+						type: 'string',
+						example: 'fahri',
+					},
+				},
+			},
+
+			UpdateOrganizationMemberRequest: {
+				type: 'object',
+				properties: {
+					level: {
+						type: 'string',
+						example: 'MEMBER',
+					},
+					updated_by: {
+						type: 'string',
+						example: 'uler@gmail.com',
+					},
+					username: {
+						type: 'string',
+						example: 'fahri',
+					},
+				},
+			},
+
 			Error: {
 				type: 'object',
 				properties: {
