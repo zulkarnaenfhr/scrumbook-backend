@@ -1,4 +1,7 @@
 import * as organizationRepository from '../../repositories/organization/organtization.repository.js';
+
+import * as userRepository from '../../repositories/users/user.repository.js';
+
 import { CreateOrganizationRequest, UpdateOrganizationRequest } from '../../types/organization/organization.js';
 
 export async function getOrganizations() {
@@ -16,33 +19,34 @@ export async function getOrganizationById(id: number) {
 }
 
 export async function createOrganization(data: CreateOrganizationRequest) {
-	if (!data.name?.trim()) {
-		throw new Error('Organization name is required');
+	const name = data.name?.trim();
+	const description = data.description?.trim();
+	const createdBy = data.created_by?.trim();
+	const userId = data.user_id?.trim();
+
+	if (!name || !description || !createdBy || !userId) {
+		throw new Error('Required field missing');
 	}
 
-	const name = data.name.trim();
+	// Check user exists
+	const user = await userRepository.findById(userId);
 
+	if (!user) {
+		throw new Error('User not found');
+	}
+
+	// Check duplicate organization name
 	const existingOrganization = await organizationRepository.findByName(name);
 
 	if (existingOrganization) {
 		throw new Error('Organization already exists');
 	}
 
-	let code: string | undefined;
-
-	if (data.code?.trim()) {
-		code = data.code.trim().toUpperCase();
-
-		const existingCode = await organizationRepository.findByCode(code);
-
-		if (existingCode) {
-			throw new Error('Organization code already exists');
-		}
-	}
-
 	return organizationRepository.create({
 		name,
-		code,
+		description,
+		created_by: createdBy,
+		user_id: userId,
 	});
 }
 
@@ -53,43 +57,25 @@ export async function updateOrganization(id: number, data: UpdateOrganizationReq
 		throw new Error('Organization not found');
 	}
 
-	const updateData: UpdateOrganizationRequest = {
-		...data,
-	};
+	if (data.name) {
+		data.name = data.name.trim();
 
-	if (updateData.name !== undefined) {
-		if (!updateData.name.trim()) {
-			throw new Error('Organization name is required');
-		}
+		const existingOrganizationByName = await organizationRepository.findByName(data.name);
 
-		const name = updateData.name.trim();
-
-		const existingName = await organizationRepository.findByName(name);
-
-		if (existingName && existingName.id !== id) {
+		if (existingOrganizationByName && existingOrganizationByName.id !== id) {
 			throw new Error('Organization already exists');
 		}
-
-		updateData.name = name;
 	}
 
-	if (updateData.code !== undefined) {
-		if (updateData.code === null) {
-			updateData.code = null;
-		} else {
-			const code = updateData.code.trim().toUpperCase();
-
-			const existingCode = await organizationRepository.findByCode(code);
-
-			if (existingCode && existingCode.id !== id) {
-				throw new Error('Organization code already exists');
-			}
-
-			updateData.code = code;
-		}
+	if (data.description) {
+		data.description = data.description.trim();
 	}
 
-	return organizationRepository.update(id, updateData);
+	if (data.updated_by) {
+		data.updated_by = data.updated_by.trim();
+	}
+
+	return organizationRepository.update(id, data);
 }
 
 export async function deleteOrganization(id: number) {

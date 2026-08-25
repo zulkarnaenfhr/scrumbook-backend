@@ -1,17 +1,23 @@
 export interface Organization {
 	id: number;
+	created_at: Date;
 	name: string;
-	code: string | null;
-	created_at: string;
-	updated_at: string;
+	description: string;
+	created_by: string;
+	updated_by: string;
+	updated_at: Date;
+	user_id: string;
 }
 
 export interface CreateOrganizationRequest {
 	name: string;
-	code?: string;
+	description: string;
+	created_by: string;
+	user_id: string;
 }
 
 export interface UpdateOrganizationRequest {
 	name?: string;
-	code?: string | null;
+	description?: string;
+	updated_by?: string;
 }

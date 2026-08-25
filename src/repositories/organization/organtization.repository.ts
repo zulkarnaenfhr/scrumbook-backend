@@ -1,16 +1,20 @@
 import { pool } from '../../config/database.js';
+
 import { CreateOrganizationRequest, UpdateOrganizationRequest } from '../../types/organization/organization.js';
 
 export async function findAll() {
 	const result = await pool.query(`
 		SELECT
 			id,
-			name,
-			code,
 			created_at,
-			updated_at
-		FROM "scrumbook".organizations
-		ORDER BY created_at 
+			name,
+			description,
+			created_by,
+			updated_by,
+			updated_at,
+			user_id
+		FROM scrum.organization
+		ORDER BY created_at DESC
 	`);
 
 	return result.rows;
@@ -21,11 +25,14 @@ export async function findById(id: number) {
 		`
 		SELECT
 			id,
-			name,
-			code,
 			created_at,
-			updated_at
-		FROM "scrumbook".organizations
+			name,
+			description,
+			created_by,
+			updated_by,
+			updated_at,
+			user_id
+		FROM scrum.organization
 		WHERE id = $1
 		`,
 		[id],
@@ -39,11 +46,14 @@ export async function findByName(name: string) {
 		`
 		SELECT
 			id,
-			name,
-			code,
 			created_at,
-			updated_at
-		FROM "scrumbook".organizations
+			name,
+			description,
+			created_by,
+			updated_by,
+			updated_at,
+			user_id
+		FROM scrum.organization
 		WHERE LOWER(name) = LOWER($1)
 		`,
 		[name],
@@ -52,40 +62,28 @@ export async function findByName(name: string) {
 	return result.rows[0] ?? null;
 }
 
-export async function findByCode(code: string) {
-	const result = await pool.query(
-		`
-		SELECT
-			id,
-			name,
-			code,
-			created_at,
-			updated_at
-		FROM "scrumbook".organizations
-		WHERE LOWER(code) = LOWER($1)
-		`,
-		[code],
-	);
-
-	return result.rows[0] ?? null;
-}
-
 export async function create(data: CreateOrganizationRequest) {
 	const result = await pool.query(
 		`
-		INSERT INTO "scrumbook".organizations (
+		INSERT INTO scrum.organization (
 			name,
-			code
+			description,
+			created_by,
+			updated_by,
+			user_id
 		)
-		VALUES ($1, $2)
+		VALUES ($1, $2, $3, $3, $4)
 		RETURNING
 			id,
-			name,
-			code,
 			created_at,
-			updated_at
+			name,
+			description,
+			created_by,
+			updated_by,
+			updated_at,
+			user_id
 		`,
-		[data.name, data.code ?? null],
+		[data.name, data.description, data.created_by, data.user_id],
 	);
 
 	return result.rows[0];
@@ -94,20 +92,24 @@ export async function create(data: CreateOrganizationRequest) {
 export async function update(id: number, data: UpdateOrganizationRequest) {
 	const result = await pool.query(
 		`
-		UPDATE "scrumbook".organizations
+		UPDATE scrum.organization
 		SET
 			name = COALESCE($1, name),
-			code = COALESCE($2, code),
+			description = COALESCE($2, description),
+			updated_by = COALESCE($3, updated_by),
 			updated_at = NOW()
-		WHERE id = $3
+		WHERE id = $4
 		RETURNING
 			id,
-			name,
-			code,
 			created_at,
-			updated_at
+			name,
+			description,
+			created_by,
+			updated_by,
+			updated_at,
+			user_id
 		`,
-		[data.name ?? null, data.code ?? null, id],
+		[data.name ?? null, data.description ?? null, data.updated_by ?? null, id],
 	);
 
 	return result.rows[0] ?? null;
@@ -116,14 +118,17 @@ export async function update(id: number, data: UpdateOrganizationRequest) {
 export async function deleteOrganization(id: number) {
 	const result = await pool.query(
 		`
-		DELETE FROM "scrumbook".organizations
+		DELETE FROM scrum.organization
 		WHERE id = $1
 		RETURNING
 			id,
-			name,
-			code,
 			created_at,
-			updated_at
+			name,
+			description,
+			created_by,
+			updated_by,
+			updated_at,
+			user_id
 		`,
 		[id],
 	);

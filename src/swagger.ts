@@ -53,7 +53,7 @@ const swaggerDefinition = {
 					id: {
 						type: 'string',
 						format: 'uuid',
-						example: '3562239c-885a-4715-bc5a-41b8c22cf049',
+						example: '0053d6c6-f44a-4baf-98c1-ce9ab9cccafb',
 					},
 					username: {
 						type: 'string',
@@ -167,48 +167,65 @@ const swaggerDefinition = {
 
 			Organization: {
 				type: 'object',
-				required: ['id', 'name', 'created_at', 'updated_at'],
+				required: ['id', 'created_at', 'name', 'description', 'created_by', 'updated_by', 'updated_at', 'user_id'],
 				properties: {
 					id: {
 						type: 'integer',
 						format: 'int64',
 						example: 1,
 					},
-					name: {
-						type: 'string',
-						maxLength: 255,
-						example: 'BCA Digital',
-					},
-					code: {
-						type: 'string',
-						maxLength: 100,
-						nullable: true,
-						example: 'BCA-DIGITAL',
-					},
 					created_at: {
 						type: 'string',
 						format: 'date-time',
 					},
+					name: {
+						type: 'string',
+						example: 'Digital Banking',
+					},
+					description: {
+						type: 'string',
+						example: 'Digital Banking Organization',
+					},
+					created_by: {
+						type: 'string',
+						example: 'fahri',
+					},
+					updated_by: {
+						type: 'string',
+						example: 'fahri',
+					},
 					updated_at: {
 						type: 'string',
 						format: 'date-time',
+					},
+					user_id: {
+						type: 'string',
+						format: 'uuid',
+						example: '0053d6c6-f44a-4baf-98c1-ce9ab9cccafb',
 					},
 				},
 			},
 
 			CreateOrganizationRequest: {
 				type: 'object',
-				required: ['name'],
+				required: ['name', 'description', 'created_by', 'user_id'],
 				properties: {
 					name: {
 						type: 'string',
-						maxLength: 255,
-						example: 'BCA Digital',
+						example: 'Digital Banking',
 					},
-					code: {
+					description: {
 						type: 'string',
-						maxLength: 100,
-						example: 'BCA-DIGITAL',
+						example: 'Digital Banking Organization',
+					},
+					created_by: {
+						type: 'string',
+						example: 'fahri',
+					},
+					user_id: {
+						type: 'string',
+						format: 'uuid',
+						example: '0053d6c6-f44a-4baf-98c1-ce9ab9cccafb',
 					},
 				},
 			},
@@ -218,14 +235,15 @@ const swaggerDefinition = {
 				properties: {
 					name: {
 						type: 'string',
-						maxLength: 255,
-						example: 'BCA Digital Updated',
+						example: 'Digital Banking Updated',
 					},
-					code: {
+					description: {
 						type: 'string',
-						maxLength: 100,
-						nullable: true,
-						example: 'BCA-DIGITAL',
+						example: 'Updated description',
+					},
+					updated_by: {
+						type: 'string',
+						example: 'fahri',
 					},
 				},
 			},
