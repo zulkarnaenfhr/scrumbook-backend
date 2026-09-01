@@ -52,14 +52,33 @@ export async function findByEmail(email: string) {
 	return result.rows[0] ?? null;
 }
 
+export async function findByUsername(username: string) {
+	const result = await pool.query(
+		`
+		SELECT
+			id,
+			username,
+			email,
+			created_at,
+			updated_at
+		FROM scrum.users
+		WHERE username = $1
+		`,
+		[username],
+	);
+
+	return result.rows[0] ?? null;
+}
+
 export async function create(data: CreateUserRequest) {
 	const result = await pool.query(
 		`
 		INSERT INTO scrum.users (
 			username,
-			email
+			email,
+			password_hash
 		)
-		VALUES ($1, $2)
+		VALUES ($1, $2, $3)
 		RETURNING
 			id,
 			username,
@@ -67,7 +86,7 @@ export async function create(data: CreateUserRequest) {
 			created_at,
 			updated_at
 		`,
-		[data.username ?? null, data.email ?? null],
+		[data.username ?? null, data.email ?? null, data.password],
 	);
 
 	return result.rows[0];
@@ -111,4 +130,34 @@ export async function deleteUser(id: string) {
 	);
 
 	return result.rows[0] ?? null;
+}
+
+export async function findByEmailWithPassword(email: string) {
+	const result = await pool.query(
+		`
+
+      SELECT
+
+        id,
+
+        username,
+
+        email,
+
+        password_hash,
+
+        created_at,
+
+        updated_at
+
+      FROM scrum.users
+
+      WHERE email = $1
+
+    `,
+
+		[email],
+	);
+
+	return result.rows[0];
 }

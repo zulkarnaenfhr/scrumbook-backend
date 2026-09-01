@@ -93,7 +93,7 @@ const swaggerDefinition = {
 					id: {
 						type: 'string',
 						format: 'uuid',
-						example: '0053d6c6-f44a-4baf-98c1-ce9ab9cccafb',
+						example: 'bd2f3af9-6286-49f1-a8c9-105a607295f9',
 					},
 					username: {
 						type: 'string',
@@ -130,6 +130,11 @@ const swaggerDefinition = {
 						format: 'email',
 						example: 'fahri@example.com',
 					},
+					password: {
+						type: 'string',
+						format: 'password',
+						example: 'password123',
+					},
 				},
 			},
 
@@ -144,6 +149,11 @@ const swaggerDefinition = {
 						type: 'string',
 						format: 'email',
 						example: 'fahri.updated@example.com',
+					},
+					password: {
+						type: 'string',
+						format: 'password',
+						example: 'newpassword123',
 					},
 				},
 			},
@@ -163,11 +173,11 @@ const swaggerDefinition = {
 					},
 					name: {
 						type: 'string',
-						example: 'Digital Banking',
+						example: 'Scrum Features',
 					},
 					description: {
 						type: 'string',
-						example: 'Digital Banking Organization',
+						example: 'Scrum Features Organization',
 					},
 					created_by: {
 						type: 'string',
@@ -184,7 +194,7 @@ const swaggerDefinition = {
 					user_id: {
 						type: 'string',
 						format: 'uuid',
-						example: '0053d6c6-f44a-4baf-98c1-ce9ab9cccafb',
+						example: 'bd2f3af9-6286-49f1-a8c9-105a607295f9',
 					},
 				},
 			},
@@ -195,11 +205,11 @@ const swaggerDefinition = {
 				properties: {
 					name: {
 						type: 'string',
-						example: 'Digital Banking',
+						example: 'Scrum Features',
 					},
 					description: {
 						type: 'string',
-						example: 'Digital Banking Organization',
+						example: 'Scrum Features Organization',
 					},
 					created_by: {
 						type: 'string',
@@ -208,7 +218,7 @@ const swaggerDefinition = {
 					user_id: {
 						type: 'string',
 						format: 'uuid',
-						example: '0053d6c6-f44a-4baf-98c1-ce9ab9cccafb',
+						example: 'bd2f3af9-6286-49f1-a8c9-105a607295f9',
 					},
 				},
 			},
@@ -218,7 +228,7 @@ const swaggerDefinition = {
 				properties: {
 					name: {
 						type: 'string',
-						example: 'Digital Banking Updated',
+						example: 'Scrum Features Updated',
 					},
 					description: {
 						type: 'string',
@@ -242,7 +252,7 @@ const swaggerDefinition = {
 					},
 					name: {
 						type: 'string',
-						example: 'Digital Banking',
+						example: 'Scrum Features',
 					},
 					is_active: {
 						type: 'boolean',
@@ -268,7 +278,7 @@ const swaggerDefinition = {
 					name: {
 						type: 'string',
 						maxLength: 150,
-						example: 'Digital Banking',
+						example: 'Scrum Features',
 					},
 				},
 			},
@@ -279,7 +289,7 @@ const swaggerDefinition = {
 					name: {
 						type: 'string',
 						maxLength: 150,
-						example: 'Digital Banking Updated',
+						example: 'Scrum Features Updated',
 					},
 					is_active: {
 						type: 'boolean',
@@ -309,7 +319,7 @@ const swaggerDefinition = {
 					user_id: {
 						type: 'string',
 						format: 'uuid',
-						example: '0053d6c6-f44a-4baf-98c1-ce9ab9cccafb',
+						example: 'bd2f3af9-6286-49f1-a8c9-105a607295f9',
 					},
 					level: {
 						type: 'string',
@@ -347,7 +357,7 @@ const swaggerDefinition = {
 					user_id: {
 						type: 'string',
 						format: 'uuid',
-						example: '0053d6c6-f44a-4baf-98c1-ce9ab9cccafb',
+						example: 'bd2f3af9-6286-49f1-a8c9-105a607295f9',
 					},
 					level: {
 						type: 'string',
@@ -405,11 +415,11 @@ const swaggerDefinition = {
 					created_at: { type: 'string', format: 'date-time' },
 					updated_at: { type: 'string', format: 'date-time' },
 					no_release: { type: 'string', nullable: true, example: 'v1.0.0' },
-					business_unit: { type: 'string', nullable: true, example: 'Digital Banking' },
+					business_unit: { type: 'string', nullable: true, example: 'Scrum Features' },
 					category: { type: 'string', nullable: true, example: 'Internal' },
 					project_owner: { type: 'string', nullable: true, example: 'Fahri' },
 					organization_id: { type: 'string', example: '1' },
-					user_id: { type: 'string', format: 'uuid', example: '0053d6c6-f44a-4baf-98c1-ce9ab9cccafb' },
+					user_id: { type: 'string', format: 'uuid', example: 'bd2f3af9-6286-49f1-a8c9-105a607295f9' },
 				},
 			},
 
@@ -429,11 +439,11 @@ const swaggerDefinition = {
 					created_by: { type: 'string', example: 'fahri' },
 					updated_by: { type: 'string', example: 'fahri' },
 					no_release: { type: 'string', example: 'v1.0.0' },
-					business_unit: { type: 'string', example: 'Digital Banking' },
+					business_unit: { type: 'string', example: 'Scrum Features' },
 					category: { type: 'string', example: 'Internal' },
 					project_owner: { type: 'string', example: 'Fahri' },
 					organization_id: { type: 'string', example: '1' },
-					user_id: { type: 'string', format: 'uuid', example: '0053d6c6-f44a-4baf-98c1-ce9ab9cccafb' },
+					user_id: { type: 'string', format: 'uuid', example: 'bd2f3af9-6286-49f1-a8c9-105a607295f9' },
 				},
 			},
 
@@ -451,7 +461,7 @@ const swaggerDefinition = {
 					color: { type: 'string', example: '#FF5733' },
 					updated_by: { type: 'string', example: 'fahri' },
 					no_release: { type: 'string', example: 'v1.0.0' },
-					business_unit: { type: 'string', example: 'Digital Banking' },
+					business_unit: { type: 'string', example: 'Scrum Features' },
 					category: { type: 'string', example: 'Internal' },
 					project_owner: { type: 'string', example: 'Fahri' },
 				},
@@ -523,7 +533,7 @@ const swaggerDefinition = {
 					created_at: { type: 'string', format: 'date-time' },
 					updated_at: { type: 'string', format: 'date-time' },
 					title: { type: 'string', nullable: true, example: 'API Design Document' },
-					user_id: { type: 'string', format: 'uuid', example: '0053d6c6-f44a-4baf-98c1-ce9ab9cccafb' },
+					user_id: { type: 'string', format: 'uuid', example: 'bd2f3af9-6286-49f1-a8c9-105a607295f9' },
 					is_redirect: { type: 'boolean', example: false },
 				},
 			},
@@ -543,7 +553,7 @@ const swaggerDefinition = {
 					created_by: { type: 'string', example: 'fahri' },
 					updated_by: { type: 'string', example: 'fahri' },
 					title: { type: 'string', example: 'API Design Document' },
-					user_id: { type: 'string', format: 'uuid', example: '0053d6c6-f44a-4baf-98c1-ce9ab9cccafb' },
+					user_id: { type: 'string', format: 'uuid', example: 'bd2f3af9-6286-49f1-a8c9-105a607295f9' },
 					is_redirect: { type: 'boolean', example: false },
 				},
 			},
@@ -591,7 +601,7 @@ const swaggerDefinition = {
 					},
 					code: { type: 'string', example: 'FLOW-001' },
 					version: { type: 'integer', nullable: true, example: 1 },
-					user_id: { type: 'string', format: 'uuid', example: '0053d6c6-f44a-4baf-98c1-ce9ab9cccafb' },
+					user_id: { type: 'string', format: 'uuid', example: 'bd2f3af9-6286-49f1-a8c9-105a607295f9' },
 					project_id: { type: 'string', example: '1' },
 				},
 			},
@@ -609,7 +619,7 @@ const swaggerDefinition = {
 					edge: { type: 'array', items: { type: 'object' }, example: [{ id: 'e1', source: 'n1', target: 'n2' }] },
 					code: { type: 'string', example: 'FLOW-001' },
 					version: { type: 'integer', example: 1 },
-					user_id: { type: 'string', format: 'uuid', example: '0053d6c6-f44a-4baf-98c1-ce9ab9cccafb' },
+					user_id: { type: 'string', format: 'uuid', example: 'bd2f3af9-6286-49f1-a8c9-105a607295f9' },
 					project_id: { type: 'string', example: '1' },
 				},
 			},
@@ -674,7 +684,7 @@ const swaggerDefinition = {
 					create_permission: { type: 'boolean', example: true },
 					write: { type: 'boolean', example: false },
 					delete: { type: 'boolean', example: false },
-					user_id: { type: 'string', format: 'uuid', example: '0053d6c6-f44a-4baf-98c1-ce9ab9cccafb' },
+					user_id: { type: 'string', format: 'uuid', example: 'bd2f3af9-6286-49f1-a8c9-105a607295f9' },
 					type: { type: 'string', example: 'project' },
 					username: { type: 'string', example: 'fahri' },
 					created_at: { type: 'string', format: 'date-time' },
@@ -690,7 +700,7 @@ const swaggerDefinition = {
 					create_permission: { type: 'boolean', example: true },
 					write: { type: 'boolean', example: false },
 					delete: { type: 'boolean', example: false },
-					user_id: { type: 'string', format: 'uuid', example: '0053d6c6-f44a-4baf-98c1-ce9ab9cccafb' },
+					user_id: { type: 'string', format: 'uuid', example: 'bd2f3af9-6286-49f1-a8c9-105a607295f9' },
 					type: { type: 'string', example: 'project' },
 					username: { type: 'string', example: 'fahri' },
 				},
@@ -757,7 +767,7 @@ const swaggerDefinition = {
 					project_id: { type: 'string', nullable: true, example: '1' },
 					title: { type: 'string', example: 'Design database schema' },
 					detail: { type: 'string', nullable: true, example: 'Design normalized schema for scrum module' },
-					user_id: { type: 'string', format: 'uuid', example: '0053d6c6-f44a-4baf-98c1-ce9ab9cccafb' },
+					user_id: { type: 'string', format: 'uuid', example: 'bd2f3af9-6286-49f1-a8c9-105a607295f9' },
 					target: { type: 'string', format: 'date-time', nullable: true },
 					priority: { type: 'string', example: 'high' },
 					created_by: { type: 'string', nullable: true, example: 'fahri' },
@@ -776,12 +786,26 @@ const swaggerDefinition = {
 					project_id: { type: 'string', example: '1' },
 					title: { type: 'string', example: 'Design database schema' },
 					detail: { type: 'string', example: 'Design normalized schema for scrum module' },
-					user_id: { type: 'string', format: 'uuid', example: '0053d6c6-f44a-4baf-98c1-ce9ab9cccafb' },
+					user_id: { type: 'string', format: 'uuid', example: 'bd2f3af9-6286-49f1-a8c9-105a607295f9' },
 					target: { type: 'string', format: 'date-time' },
 					priority: { type: 'string', example: 'high' },
 					created_by: { type: 'string', example: 'fahri' },
 					updated_by: { type: 'string', example: 'fahri' },
 					status: { type: 'string', example: 'todo' },
+					timeline_id: { type: 'string', example: '1' },
+				},
+			},
+
+			UpdateTaskRequest: {
+				type: 'object',
+				properties: {
+					project_id: { type: 'string', example: '1' },
+					title: { type: 'string', example: 'Design database schema' },
+					detail: { type: 'string', example: 'Design normalized schema for scrum module' },
+					target: { type: 'string', format: 'date-time' },
+					priority: { type: 'string', example: 'medium' },
+					updated_by: { type: 'string', example: 'fahri' },
+					status: { type: 'string', example: 'done' },
 					timeline_id: { type: 'string', example: '1' },
 				},
 			},
@@ -828,17 +852,41 @@ const swaggerDefinition = {
 				},
 			},
 
-			UpdateTaskRequest: {
+			LoginRequest: {
+				type: 'object',
+				required: ['email', 'password'],
+				properties: {
+					email: {
+						type: 'string',
+						format: 'email',
+						example: 'fahri@example.com',
+					},
+					password: {
+						type: 'string',
+						format: 'password',
+						example: 'password123',
+					},
+				},
+			},
+
+			LoginResponse: {
 				type: 'object',
 				properties: {
-					project_id: { type: 'string', example: '1' },
-					title: { type: 'string', example: 'Design database schema' },
-					detail: { type: 'string', example: 'Design normalized schema for scrum module' },
-					target: { type: 'string', format: 'date-time' },
-					priority: { type: 'string', example: 'medium' },
-					updated_by: { type: 'string', example: 'fahri' },
-					status: { type: 'string', example: 'done' },
-					timeline_id: { type: 'string', example: '1' },
+					access_token: {
+						type: 'string',
+						example: 'eyJhbGciOiJIUzI1NiIs...',
+					},
+					token_type: {
+						type: 'string',
+						example: 'Bearer',
+					},
+					expires_in: {
+						type: 'integer',
+						example: 3600,
+					},
+					user: {
+						$ref: '#/components/schemas/User',
+					},
 				},
 			},
 

@@ -9,7 +9,7 @@ const router = Router();
  * /api/timelines:
  *   get:
  *     tags:
- *       - Timelines
+ *       - Timeline
  *     summary: Get all timelines
  *     responses:
  *       200:
@@ -22,7 +22,7 @@ router.get('/', getTimelines);
  * /api/timelines/{id}:
  *   get:
  *     tags:
- *       - Timelines
+ *       - Timeline
  *     summary: Get timeline by ID
  *     parameters:
  *       - name: id
@@ -44,7 +44,7 @@ router.get('/:id', getTimeline);
  * /api/timelines:
  *   post:
  *     tags:
- *       - Timelines
+ *       - Timeline
  *     summary: Create timeline
  *     requestBody:
  *       required: true
@@ -65,7 +65,7 @@ router.post('/', createTimeline);
  * /api/timelines/{id}:
  *   put:
  *     tags:
- *       - Timelines
+ *       - Timeline
  *     summary: Update timeline
  *     parameters:
  *       - name: id
@@ -92,7 +92,7 @@ router.put('/:id', updateTimeline);
  * /api/timelines/{id}:
  *   delete:
  *     tags:
- *       - Timelines
+ *       - Timeline
  *     summary: Delete timeline
  *     parameters:
  *       - name: id

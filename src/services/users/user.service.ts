@@ -1,3 +1,4 @@
+import bcrypt from 'bcryptjs';
 import * as userRepository from '../../repositories/users/user.repository.js';
 import { CreateUserRequest, UpdateUserRequest } from '../../types/users/user.js';
 
@@ -19,21 +20,24 @@ export async function createUser(data: CreateUserRequest) {
 	const email = data.email?.trim().toLowerCase();
 	const username = data.username?.trim();
 
-	if (!email && !username) {
+	if (!email || !username || !data.password) {
 		throw new Error('Required field missing');
 	}
 
-	if (email) {
-		const existingUser = await userRepository.findByEmail(email);
-
-		if (existingUser) {
-			throw new Error('Email already exists');
-		}
+	if (await userRepository.findByEmail(email)) {
+		throw new Error('Email already exists');
 	}
+
+	if (await userRepository.findByUsername(username)) {
+		throw new Error('Username already exists');
+	}
+
+	const passwordHash = await bcrypt.hash(data.password, 10);
 
 	return userRepository.create({
 		username,
 		email,
+		password: passwordHash,
 	});
 }
 

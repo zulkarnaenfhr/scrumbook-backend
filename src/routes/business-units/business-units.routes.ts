@@ -8,7 +8,7 @@ const router = Router();
  * /api/business-units:
  *   get:
  *     tags:
- *       - Business Units
+ *       - Business Unit
  *     summary: Get all business units
  *     responses:
  *       200:
@@ -49,7 +49,7 @@ router.get('/', getBusinessUnits);
  * /api/business-units/{id}:
  *   get:
  *     tags:
- *       - Business Units
+ *       - Business Unit
  *     summary: Get business unit by ID
  *     parameters:
  *       - name: id
@@ -86,7 +86,7 @@ router.get('/:id', getBusinessUnit);
  * /api/business-units:
  *   post:
  *     tags:
- *       - Business Units
+ *       - Business Unit
  *     summary: Create a business unit
  *     requestBody:
  *       required: true
@@ -95,7 +95,7 @@ router.get('/:id', getBusinessUnit);
  *           schema:
  *             $ref: '#/components/schemas/CreateBusinessUnitRequest'
  *           example:
- *             name: Digital Banking
+ *             name: Scrum Features
  *     responses:
  *       201:
  *         description: Business unit created successfully
@@ -120,7 +120,7 @@ router.post('/', createBusinessUnit);
  * /api/business-units/{id}:
  *   put:
  *     tags:
- *       - Business Units
+ *       - Business Unit
  *     summary: Update a business unit
  *     parameters:
  *       - name: id
@@ -138,7 +138,7 @@ router.post('/', createBusinessUnit);
  *           schema:
  *             $ref: '#/components/schemas/UpdateBusinessUnitRequest'
  *           example:
- *             name: Digital Banking Updated
+ *             name: Scrum Features Updated
  *             is_active: true
  *     responses:
  *       200:
@@ -166,7 +166,7 @@ router.put('/:id', updateBusinessUnit);
  * /api/business-units/{id}:
  *   delete:
  *     tags:
- *       - Business Units
+ *       - Business Unit
  *     summary: Deactivate a business unit
  *     description: Soft deletes the business unit by setting is_active to false.
  *     parameters:

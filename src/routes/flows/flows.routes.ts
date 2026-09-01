@@ -9,7 +9,7 @@ const router = Router();
  * /api/flows:
  *   get:
  *     tags:
- *       - Flows
+ *       - Flow
  *     summary: Get all flows
  *     responses:
  *       200:
@@ -22,7 +22,7 @@ router.get('/', getFlows);
  * /api/flows/{id}:
  *   get:
  *     tags:
- *       - Flows
+ *       - Flow
  *     summary: Get flow by ID
  *     parameters:
  *       - name: id
@@ -44,7 +44,7 @@ router.get('/:id', getFlow);
  * /api/flows:
  *   post:
  *     tags:
- *       - Flows
+ *       - Flow
  *     summary: Create flow
  *     requestBody:
  *       required: true
@@ -65,7 +65,7 @@ router.post('/', createFlow);
  * /api/flows/{id}:
  *   put:
  *     tags:
- *       - Flows
+ *       - Flow
  *     summary: Update flow
  *     parameters:
  *       - name: id
@@ -92,7 +92,7 @@ router.put('/:id', updateFlow);
  * /api/flows/{id}:
  *   delete:
  *     tags:
- *       - Flows
+ *       - Flow
  *     summary: Delete flow
  *     parameters:
  *       - name: id

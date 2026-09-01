@@ -9,7 +9,7 @@ const router = Router();
  * /api/changelogs:
  *   get:
  *     tags:
- *       - Changelogs
+ *       - Changelog
  *     summary: Get all changelogs
  *     responses:
  *       200:
@@ -22,7 +22,7 @@ router.get('/', getChangelogs);
  * /api/changelogs/{id}:
  *   get:
  *     tags:
- *       - Changelogs
+ *       - Changelog
  *     summary: Get changelog by ID
  *     parameters:
  *       - name: id
@@ -44,7 +44,7 @@ router.get('/:id', getChangelog);
  * /api/changelogs:
  *   post:
  *     tags:
- *       - Changelogs
+ *       - Changelog
  *     summary: Create changelog
  *     requestBody:
  *       required: true
@@ -65,7 +65,7 @@ router.post('/', createChangelog);
  * /api/changelogs/{id}:
  *   put:
  *     tags:
- *       - Changelogs
+ *       - Changelog
  *     summary: Update changelog
  *     parameters:
  *       - name: id
@@ -92,7 +92,7 @@ router.put('/:id', updateChangelog);
  * /api/changelogs/{id}:
  *   delete:
  *     tags:
- *       - Changelogs
+ *       - Changelog
  *     summary: Delete changelog
  *     parameters:
  *       - name: id

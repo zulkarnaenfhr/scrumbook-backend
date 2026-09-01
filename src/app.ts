@@ -18,6 +18,7 @@ import projectRoutes from './routes/projects/projects.routes.js';
 import projectConstraintRoutes from './routes/project-constraints/project-constraint.routes.js';
 import taskRoutes from './routes/tasks/task.routes.js';
 import correspondingTeamRoutes from './routes/corresponding-teams/corresponding-team.routes.js';
+import authRoutes from './routes/auth/auth.routes.js';
 
 dotenv.config();
 
@@ -69,6 +70,8 @@ app.use('/api/tasks', taskRoutes);
 app.use('/api/corresponding-teams', correspondingTeamRoutes);
 
 app.use('/api/organization-members', organizationMemberRoutes);
+
+app.use('/api/auth', authRoutes);
 
 app.use(errorMiddleware);
 

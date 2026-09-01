@@ -40,15 +40,16 @@ export async function getUser(req: Request, res: Response) {
 
 export async function createUser(req: Request, res: Response) {
 	try {
-		const { username, email } = req.body;
+		const { username, email, password } = req.body;
 
-		if (!username?.trim() || !email?.trim()) {
+		if (!username?.trim() || !email?.trim() || !password) {
 			return res.status(400).json(errorResponse(ERR_STATUS_FIELD_REQUIRED_MISSING.error_code, ERR_STATUS_FIELD_REQUIRED_MISSING.error_message.en, ERR_STATUS_FIELD_REQUIRED_MISSING.error_message.id));
 		}
 
 		const user = await userService.createUser({
 			username,
 			email,
+			password,
 		});
 
 		return res.status(201).json(successResponse(user));
