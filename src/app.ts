@@ -19,6 +19,7 @@ import projectConstraintRoutes from './routes/project-constraints/project-constr
 import taskRoutes from './routes/tasks/task.routes.js';
 import correspondingTeamRoutes from './routes/corresponding-teams/corresponding-team.routes.js';
 import authRoutes from './routes/auth/auth.routes.js';
+import rolesRoutes from './routes/roles/roles.routes.js';
 
 dotenv.config();
 
@@ -57,6 +58,7 @@ app.get('/api-docs.json', (req, res) => {
 });
 
 app.use('/api/users', userRoutes);
+app.use('/api/roles', rolesRoutes);
 app.use('/api/business-units', businessUnitRoutes);
 app.use('/api/organizations', organizationRoutes);
 app.use('/api/projects', projectRoutes);

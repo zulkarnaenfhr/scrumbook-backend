@@ -23,6 +23,10 @@ const swaggerDefinition = {
 			description: 'User management endpoints',
 		},
 		{
+			name: 'Roles',
+			description: 'Role management endpoints',
+		},
+		{
 			name: 'Organizations',
 			description: 'Organization management endpoints',
 		},
@@ -135,6 +139,11 @@ const swaggerDefinition = {
 						format: 'password',
 						example: 'password123',
 					},
+					role_id: {
+						type: 'integer',
+						format: 'int8',
+						example: 1,
+					},
 				},
 			},
 
@@ -154,6 +163,73 @@ const swaggerDefinition = {
 						type: 'string',
 						format: 'password',
 						example: 'newpassword123',
+					},
+					role_id: {
+						type: 'integer',
+						format: 'int8',
+						example: 1,
+					},
+				},
+			},
+
+			Role: {
+				type: 'object',
+				required: ['id', 'name', 'created_at', 'updated_at'],
+				properties: {
+					id: {
+						type: 'integer',
+						format: 'int64',
+						example: 1,
+					},
+					name: {
+						type: 'string',
+						example: 'PROJECT_OWNER',
+					},
+					description: {
+						type: 'string',
+						nullable: true,
+						example: 'Responsible for managing and overseeing the project.',
+					},
+					created_at: {
+						type: 'string',
+						format: 'date-time',
+						example: '2026-09-01T08:00:00.000Z',
+					},
+					updated_at: {
+						type: 'string',
+						format: 'date-time',
+						example: '2026-09-01T08:00:00.000Z',
+					},
+				},
+			},
+
+			CreateRoleRequest: {
+				type: 'object',
+				required: ['name'],
+				properties: {
+					name: {
+						type: 'string',
+						maxLength: 100,
+						example: 'PROJECT_OWNER',
+					},
+					description: {
+						type: 'string',
+						example: 'Responsible for managing and overseeing the project.',
+					},
+				},
+			},
+
+			UpdateRoleRequest: {
+				type: 'object',
+				properties: {
+					name: {
+						type: 'string',
+						maxLength: 100,
+						example: 'PROJECT_OWNER',
+					},
+					description: {
+						type: 'string',
+						example: 'Updated role description.',
 					},
 				},
 			},

@@ -7,6 +7,7 @@ export async function findAll() {
 			id,
 			username,
 			email,
+			role_id,
 			created_at,
 			updated_at
 		FROM scrum.users
@@ -23,6 +24,7 @@ export async function findById(id: string) {
 			id,
 			username,
 			email,
+			role_id,
 			created_at,
 			updated_at
 		FROM scrum.users
@@ -76,17 +78,19 @@ export async function create(data: CreateUserRequest) {
 		INSERT INTO scrum.users (
 			username,
 			email,
-			password_hash
+			password_hash,
+			role_id
 		)
-		VALUES ($1, $2, $3)
+		VALUES ($1, $2, $3, $4)
 		RETURNING
 			id,
 			username,
 			email,
+			role_id,
 			created_at,
 			updated_at
 		`,
-		[data.username ?? null, data.email ?? null, data.password],
+		[data.username ?? null, data.email ?? null, data.password, data.role_id],
 	);
 
 	return result.rows[0];
@@ -99,16 +103,18 @@ export async function update(id: string, data: UpdateUserRequest) {
 		SET
 			username = COALESCE($1, username),
 			email = COALESCE($2, email),
+			role_id = COALESCE($3, role_id),
 			updated_at = NOW()
-		WHERE id = $3
+		WHERE id = $4
 		RETURNING
 			id,
 			username,
 			email,
+			role_id,
 			created_at,
 			updated_at
 		`,
-		[data.username ?? null, data.email ?? null, id],
+		[data.username ?? null, data.email ?? null, data.role_id, id],
 	);
 
 	return result.rows[0] ?? null;
@@ -145,6 +151,8 @@ export async function findByEmailWithPassword(email: string) {
         email,
 
         password_hash,
+
+        role_id,
 
         created_at,
 

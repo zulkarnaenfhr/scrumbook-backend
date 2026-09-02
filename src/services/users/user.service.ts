@@ -34,10 +34,18 @@ export async function createUser(data: CreateUserRequest) {
 
 	const passwordHash = await bcrypt.hash(data.password, 10);
 
+	console.log('Creating user with data:', {
+		username,
+		email,
+		passwordHash,
+		role_id: data.role_id,
+	});
+	
 	return userRepository.create({
 		username,
 		email,
 		password: passwordHash,
+		role_id: data.role_id,
 	});
 }
 

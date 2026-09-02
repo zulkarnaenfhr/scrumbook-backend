@@ -50,6 +50,7 @@ export async function createUser(req: Request, res: Response) {
 			username,
 			email,
 			password,
+			role_id: req.body.role_id,
 		});
 
 		return res.status(201).json(successResponse(user));
