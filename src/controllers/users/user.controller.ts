@@ -4,7 +4,28 @@ import * as userService from '../../services/users/user.service.js';
 
 import { successResponse, errorResponse } from '../../models/base-response.js';
 
-import { ERR_STATUS_DATA_NOT_FOUND, ERR_STATUS_FIELD_REQUIRED_MISSING, ERR_STATUS_INTERNAL_SERVER_ERROR, ERR_STATUS_EMAIL_EXIST } from '../../static/static-response-error-messages.js';
+import { ERR_STATUS_DATA_NOT_FOUND, ERR_STATUS_FIELD_REQUIRED_MISSING, ERR_STATUS_INTERNAL_SERVER_ERROR, ERR_STATUS_EMAIL_EXIST, ERR_STATUS_UNAUTHORIZED } from '../../static/static-response-error-messages.js';
+import { AuthenticatedRequest } from '../../middlewares/auth.middleware.js';
+
+export async function getCurrentUser(req: AuthenticatedRequest, res: Response) {
+	try {
+		if (!req.user) {
+			return res.status(401).json(errorResponse(ERR_STATUS_UNAUTHORIZED.error_code, ERR_STATUS_UNAUTHORIZED.error_message.en, ERR_STATUS_UNAUTHORIZED.error_message.id));
+		}
+
+		const user = await userService.getUserById(req.user.id);
+
+		return res.status(200).json(successResponse(user));
+	} catch (error) {
+		if (error instanceof Error && error.message === 'User not found') {
+			return res.status(404).json(errorResponse(ERR_STATUS_DATA_NOT_FOUND.error_code, ERR_STATUS_DATA_NOT_FOUND.error_message.en, ERR_STATUS_DATA_NOT_FOUND.error_message.id));
+		}
+
+		console.error(error);
+
+		return res.status(500).json(errorResponse(ERR_STATUS_INTERNAL_SERVER_ERROR.error_code, ERR_STATUS_INTERNAL_SERVER_ERROR.error_message.en, ERR_STATUS_INTERNAL_SERVER_ERROR.error_message.id));
+	}
+}
 
 export async function getUsers(req: Request, res: Response) {
 	try {
@@ -50,7 +71,6 @@ export async function createUser(req: Request, res: Response) {
 			username,
 			email,
 			password,
-			role_id: req.body.role_id,
 		});
 
 		return res.status(201).json(successResponse(user));
@@ -65,9 +85,9 @@ export async function createUser(req: Request, res: Response) {
 	}
 }
 
-export async function updateUser(req: Request, res: Response) {
+export async function updateUser(req: AuthenticatedRequest, res: Response) {
 	try {
-		const user = await userService.updateUser(req.params.id as string, req.body);
+		const user = await userService.updateUser(req.params.id as string, req.body, req.user?.id);
 
 		return res.status(200).json(successResponse(user));
 	} catch (error) {
@@ -85,9 +105,9 @@ export async function updateUser(req: Request, res: Response) {
 	}
 }
 
-export async function deleteUser(req: Request, res: Response) {
+export async function deleteUser(req: AuthenticatedRequest, res: Response) {
 	try {
-		const user = await userService.deleteUser(req.params.id as string);
+		const user = await userService.deleteUser(req.params.id as string, req.user?.id);
 
 		return res.status(200).json(successResponse(user));
 	} catch (error) {

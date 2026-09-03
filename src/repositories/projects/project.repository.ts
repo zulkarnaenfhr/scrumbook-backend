@@ -31,6 +31,78 @@ export async function findAll() {
 	return result.rows;
 }
 
+export async function findAllByUserId(userId: string) {
+	const result = await pool.query(
+		`
+		SELECT
+			p.id,
+			p.code,
+			p.name,
+			p.summary,
+			p.target_start,
+			p.target_end,
+			p.target_implementation,
+			p.priority,
+			p.status,
+			p.color,
+			p.created_by,
+			p.updated_by,
+			p.created_at,
+			p.updated_at,
+			p.no_release,
+			p.business_unit,
+			p.category,
+			p.project_owner,
+			p.organization_id,
+			p.user_id
+		FROM scrum.project p
+		INNER JOIN scrum.organization_member om
+			ON om.organization_id = p.organization_id
+		WHERE om.user_id = $1
+		ORDER BY p.created_at DESC
+		`,
+		[userId],
+	);
+
+	return result.rows;
+}
+
+export async function findByIdForUser(id: string, userId: string) {
+	const result = await pool.query(
+		`
+		SELECT
+			p.id,
+			p.code,
+			p.name,
+			p.summary,
+			p.target_start,
+			p.target_end,
+			p.target_implementation,
+			p.priority,
+			p.status,
+			p.color,
+			p.created_by,
+			p.updated_by,
+			p.created_at,
+			p.updated_at,
+			p.no_release,
+			p.business_unit,
+			p.category,
+			p.project_owner,
+			p.organization_id,
+			p.user_id
+		FROM scrum.project p
+		INNER JOIN scrum.organization_member om
+			ON om.organization_id = p.organization_id
+		WHERE p.id = $1
+		  AND om.user_id = $2
+		`,
+		[id, userId],
+	);
+
+	return result.rows[0] ?? null;
+}
+
 export async function findById(id: string) {
 	const result = await pool.query(
 		`

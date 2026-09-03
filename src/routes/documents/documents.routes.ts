@@ -1,8 +1,11 @@
 import { Router } from 'express';
+import { authenticate, requirePermission } from '../../middlewares/auth.middleware.js';
 
 import { getDocuments, getDocument, createDocument, updateDocument, deleteDocument } from '../../controllers/documents/documents.controller.js';
 
 const router = Router();
+
+router.use(authenticate);
 
 /**
  * @swagger
@@ -15,7 +18,7 @@ const router = Router();
  *       200:
  *         description: Documents retrieved successfully
  */
-router.get('/', getDocuments);
+router.get('/', requirePermission('DOCUMENT_VIEW'), getDocuments);
 
 /**
  * @swagger
@@ -37,7 +40,7 @@ router.get('/', getDocuments);
  *       404:
  *         description: Document not found
  */
-router.get('/:id', getDocument);
+router.get('/:id', requirePermission('DOCUMENT_VIEW'), getDocument);
 
 /**
  * @swagger
@@ -58,7 +61,7 @@ router.get('/:id', getDocument);
  *       400:
  *         description: Invalid request
  */
-router.post('/', createDocument);
+router.post('/', requirePermission('DOCUMENT_CREATE'), createDocument);
 
 /**
  * @swagger
@@ -85,7 +88,7 @@ router.post('/', createDocument);
  *       404:
  *         description: Document not found
  */
-router.put('/:id', updateDocument);
+router.put('/:id', requirePermission('DOCUMENT_UPDATE'), updateDocument);
 
 /**
  * @swagger
@@ -106,6 +109,6 @@ router.put('/:id', updateDocument);
  *       404:
  *         description: Document not found
  */
-router.delete('/:id', deleteDocument);
+router.delete('/:id', requirePermission('DOCUMENT_DELETE'), deleteDocument);
 
 export default router;

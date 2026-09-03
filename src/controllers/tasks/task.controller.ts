@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import * as taskService from '../../services/tasks/task.service.js';
+import { AuthenticatedRequest } from '../../middlewares/auth.middleware.js';
 import { successResponse, errorResponse } from '../../models/base-response.js';
 import { ERR_STATUS_DATA_NOT_FOUND, ERR_STATUS_FIELD_REQUIRED_MISSING, ERR_STATUS_INTERNAL_SERVER_ERROR } from '../../static/static-response-error-messages.js';
 
@@ -29,7 +30,7 @@ export async function getTask(req: Request, res: Response) {
 	}
 }
 
-export async function createTask(req: Request, res: Response) {
+export async function createTask(req: AuthenticatedRequest, res: Response) {
 	try {
 		const { project_id, title, detail, user_id, target, priority, created_by, updated_by, status, timeline_id } = req.body;
 
@@ -48,7 +49,7 @@ export async function createTask(req: Request, res: Response) {
 			updated_by,
 			status,
 			timeline_id,
-		});
+		}, req.user?.id);
 		return res.status(201).json(successResponse(task));
 	} catch (error) {
 		console.error(error);
@@ -56,9 +57,9 @@ export async function createTask(req: Request, res: Response) {
 	}
 }
 
-export async function updateTask(req: Request, res: Response) {
+export async function updateTask(req: AuthenticatedRequest, res: Response) {
 	try {
-		const task = await taskService.updateTask(req.params.id as string, req.body);
+		const task = await taskService.updateTask(req.params.id as string, req.body, req.user?.id);
 		return res.status(200).json(successResponse(task));
 	} catch (error) {
 		if (error instanceof Error && error.message === 'Task not found') {
@@ -69,9 +70,9 @@ export async function updateTask(req: Request, res: Response) {
 	}
 }
 
-export async function deleteTask(req: Request, res: Response) {
+export async function deleteTask(req: AuthenticatedRequest, res: Response) {
 	try {
-		const task = await taskService.deleteTask(req.params.id as string);
+		const task = await taskService.deleteTask(req.params.id as string, req.user?.id);
 		return res.status(200).json(successResponse(task));
 	} catch (error) {
 		if (error instanceof Error && error.message === 'Task not found') {

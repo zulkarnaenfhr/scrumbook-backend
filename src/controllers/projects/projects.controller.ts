@@ -1,11 +1,16 @@
 import { Request, Response } from 'express';
 import * as projectService from '../../services/projects/projects.service.js';
+import { AuthenticatedRequest } from '../../middlewares/auth.middleware.js';
 import { successResponse, errorResponse } from '../../models/base-response.js';
 import { ERR_STATUS_DATA_NOT_FOUND, ERR_STATUS_FIELD_REQUIRED_MISSING, ERR_STATUS_INTERNAL_SERVER_ERROR } from '../../static/static-response-error-messages.js';
 
-export async function getProjects(req: Request, res: Response) {
+export async function getProjects(req: AuthenticatedRequest, res: Response) {
 	try {
-		const projects = await projectService.getProjects();
+		if (!req.user) {
+			return res.status(401).json(errorResponse('SCB401003', 'Unauthorized', 'Tidak Terautentikasi'));
+		}
+
+		const projects = await projectService.getProjects(req.user.id, req.user.isSuperAdmin);
 		if (projects.length === 0) {
 			return res.status(404).json(errorResponse(ERR_STATUS_DATA_NOT_FOUND.error_code, ERR_STATUS_DATA_NOT_FOUND.error_message.en, ERR_STATUS_DATA_NOT_FOUND.error_message.id));
 		}
@@ -16,9 +21,13 @@ export async function getProjects(req: Request, res: Response) {
 	}
 }
 
-export async function getProject(req: Request, res: Response) {
+export async function getProject(req: AuthenticatedRequest, res: Response) {
 	try {
-		const project = await projectService.getProjectById(req.params.id as string);
+		if (!req.user) {
+			return res.status(401).json(errorResponse('SCB401003', 'Unauthorized', 'Tidak Terautentikasi'));
+		}
+
+		const project = await projectService.getProjectById(req.params.id as string, req.user.id, req.user.isSuperAdmin);
 		return res.status(200).json(successResponse(project));
 	} catch (error) {
 		if (error instanceof Error && error.message === 'Project not found') {
@@ -29,7 +38,7 @@ export async function getProject(req: Request, res: Response) {
 	}
 }
 
-export async function createProject(req: Request, res: Response) {
+export async function createProject(req: AuthenticatedRequest, res: Response) {
 	try {
 		const { code, name, summary, target_start, target_end, target_implementation, priority, status, color, created_by, updated_by, no_release, business_unit, category, project_owner, organization_id, user_id } = req.body;
 
@@ -55,7 +64,7 @@ export async function createProject(req: Request, res: Response) {
 			project_owner,
 			organization_id,
 			user_id,
-		});
+		}, req.user?.id);
 		return res.status(201).json(successResponse(project));
 	} catch (error) {
 		console.error(error);
@@ -63,9 +72,9 @@ export async function createProject(req: Request, res: Response) {
 	}
 }
 
-export async function updateProject(req: Request, res: Response) {
+export async function updateProject(req: AuthenticatedRequest, res: Response) {
 	try {
-		const project = await projectService.updateProject(req.params.id as string, req.body);
+		const project = await projectService.updateProject(req.params.id as string, req.body, req.user?.id);
 		return res.status(200).json(successResponse(project));
 	} catch (error) {
 		if (error instanceof Error && error.message === 'Project not found') {
@@ -76,9 +85,9 @@ export async function updateProject(req: Request, res: Response) {
 	}
 }
 
-export async function deleteProject(req: Request, res: Response) {
+export async function deleteProject(req: AuthenticatedRequest, res: Response) {
 	try {
-		const project = await projectService.deleteProject(req.params.id as string);
+		const project = await projectService.deleteProject(req.params.id as string, req.user?.id);
 		return res.status(200).json(successResponse(project));
 	} catch (error) {
 		if (error instanceof Error && error.message === 'Project not found') {

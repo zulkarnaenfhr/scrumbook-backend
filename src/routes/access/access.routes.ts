@@ -1,8 +1,11 @@
 import { Router } from 'express';
+import { authenticate, requirePermission } from '../../middlewares/auth.middleware.js';
 
 import { getAccessList, getAccess, createAccess, updateAccess, deleteAccess } from '../../controllers/access/access.controller.js';
 
 const router = Router();
+
+router.use(authenticate);
 
 /**
  * @swagger
@@ -15,7 +18,7 @@ const router = Router();
  *       200:
  *         description: Access records retrieved successfully
  */
-router.get('/', getAccessList);
+router.get('/', requirePermission('ACCESS_VIEW'), getAccessList);
 
 /**
  * @swagger
@@ -37,7 +40,7 @@ router.get('/', getAccessList);
  *       404:
  *         description: Access not found
  */
-router.get('/:id', getAccess);
+router.get('/:id', requirePermission('ACCESS_VIEW'), getAccess);
 
 /**
  * @swagger
@@ -58,7 +61,7 @@ router.get('/:id', getAccess);
  *       400:
  *         description: Invalid request
  */
-router.post('/', createAccess);
+router.post('/', requirePermission('ACCESS_CREATE'), createAccess);
 
 /**
  * @swagger
@@ -85,7 +88,7 @@ router.post('/', createAccess);
  *       404:
  *         description: Access not found
  */
-router.put('/:id', updateAccess);
+router.put('/:id', requirePermission('ACCESS_UPDATE'), updateAccess);
 
 /**
  * @swagger
@@ -106,6 +109,6 @@ router.put('/:id', updateAccess);
  *       404:
  *         description: Access not found
  */
-router.delete('/:id', deleteAccess);
+router.delete('/:id', requirePermission('ACCESS_DELETE'), deleteAccess);
 
 export default router;

@@ -1,7 +1,10 @@
 import { Router } from 'express';
+import { authenticate, requirePermission } from '../../middlewares/auth.middleware.js';
 import { getBusinessUnits, getBusinessUnit, createBusinessUnit, updateBusinessUnit, deleteBusinessUnit } from '../../controllers/business-units/business-units.controller.js';
 
 const router = Router();
+
+router.use(authenticate);
 
 /**
  * @swagger
@@ -42,7 +45,7 @@ const router = Router();
  *       500:
  *         description: Internal server error
  */
-router.get('/', getBusinessUnits);
+router.get('/', requirePermission('BUSINESS_UNIT_VIEW'), requirePermission('BUSINESS_UNIT_VIEW'), getBusinessUnits);
 
 /**
  * @swagger
@@ -79,7 +82,7 @@ router.get('/', getBusinessUnits);
  *       500:
  *         description: Internal server error
  */
-router.get('/:id', getBusinessUnit);
+router.get('/:id', requirePermission('BUSINESS_UNIT_VIEW'), getBusinessUnit);
 
 /**
  * @swagger
@@ -113,7 +116,7 @@ router.get('/:id', getBusinessUnit);
  *       500:
  *         description: Internal server error
  */
-router.post('/', createBusinessUnit);
+router.post('/', requirePermission('BUSINESS_UNIT_CREATE'), createBusinessUnit);
 
 /**
  * @swagger
@@ -159,7 +162,7 @@ router.post('/', createBusinessUnit);
  *       500:
  *         description: Internal server error
  */
-router.put('/:id', updateBusinessUnit);
+router.put('/:id', requirePermission('BUSINESS_UNIT_UPDATE'), updateBusinessUnit);
 
 /**
  * @swagger
@@ -195,6 +198,6 @@ router.put('/:id', updateBusinessUnit);
  *       500:
  *         description: Internal server error
  */
-router.delete('/:id', deleteBusinessUnit);
+router.delete('/:id', requirePermission('BUSINESS_UNIT_DELETE'), deleteBusinessUnit);
 
 export default router;

@@ -1,8 +1,11 @@
 import { Router } from 'express';
+import { authenticate, requirePermission } from '../../middlewares/auth.middleware.js';
 
 import { getTimelines, getTimeline, createTimeline, updateTimeline, deleteTimeline } from '../../controllers/timelines/timelines.controller.js';
 
 const router = Router();
+
+router.use(authenticate);
 
 /**
  * @swagger
@@ -15,7 +18,7 @@ const router = Router();
  *       200:
  *         description: Timelines retrieved successfully
  */
-router.get('/', getTimelines);
+router.get('/', requirePermission('TIMELINE_VIEW'), getTimelines);
 
 /**
  * @swagger
@@ -37,7 +40,7 @@ router.get('/', getTimelines);
  *       404:
  *         description: Timeline not found
  */
-router.get('/:id', getTimeline);
+router.get('/:id', requirePermission('TIMELINE_VIEW'), getTimeline);
 
 /**
  * @swagger
@@ -58,7 +61,7 @@ router.get('/:id', getTimeline);
  *       400:
  *         description: Invalid request
  */
-router.post('/', createTimeline);
+router.post('/', requirePermission('TIMELINE_CREATE'), createTimeline);
 
 /**
  * @swagger
@@ -85,7 +88,7 @@ router.post('/', createTimeline);
  *       404:
  *         description: Timeline not found
  */
-router.put('/:id', updateTimeline);
+router.put('/:id', requirePermission('TIMELINE_UPDATE'), updateTimeline);
 
 /**
  * @swagger
@@ -106,6 +109,6 @@ router.put('/:id', updateTimeline);
  *       404:
  *         description: Timeline not found
  */
-router.delete('/:id', deleteTimeline);
+router.delete('/:id', requirePermission('TIMELINE_DELETE'), deleteTimeline);
 
 export default router;

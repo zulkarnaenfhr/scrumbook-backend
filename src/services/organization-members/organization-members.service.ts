@@ -1,13 +1,21 @@
+import { logger } from '../../utils/logger.js';
 import * as organizationMemberRepository from '../../repositories/organization-members/organization-members.repository.js';
 
 import { CreateOrganizationMemberRequest, UpdateOrganizationMemberRequest } from '../../types/organization-members/organization-member.js';
+import * as auditLogService from '../audit-logs/audit-log.service.js';
 
-export async function getOrganizationMembers() {
-	return organizationMemberRepository.findAll();
+const AUDIT_ENTITY = 'organization_member';
+
+export async function getOrganizationMembers(userId: string, isSuperAdmin = false) {
+	logger.debug('[organization-members] getOrganizationMembers called', { userId, isSuperAdmin });
+	return isSuperAdmin ? organizationMemberRepository.findAll() : organizationMemberRepository.findAllByUserId(userId);
 }
 
-export async function getOrganizationMemberById(id: number) {
-	const member = await organizationMemberRepository.findById(id);
+export async function getOrganizationMemberById(id: number, userId: string, isSuperAdmin = false) {
+	logger.debug('[organization-members] getOrganizationMemberById called', { id, userId });
+	const member = isSuperAdmin
+		? await organizationMemberRepository.findById(id)
+		: await organizationMemberRepository.findByIdForUser(id, userId);
 
 	if (!member) {
 		throw new Error('Organization member not found');
@@ -16,15 +24,20 @@ export async function getOrganizationMemberById(id: number) {
 	return member;
 }
 
-export async function getMembersByOrganizationId(organizationId: number) {
-	return organizationMemberRepository.findByOrganizationId(organizationId);
+export async function getMembersByOrganizationId(organizationId: number, userId: string, isSuperAdmin = false) {
+	logger.debug('[organization-members] getMembersByOrganizationId called', { organizationId, userId });
+	return isSuperAdmin
+		? organizationMemberRepository.findByOrganizationId(organizationId)
+		: organizationMemberRepository.findByOrganizationIdForUser(organizationId, userId);
 }
 
 export async function getMembersByUserId(userId: string) {
+	logger.debug('[organization-members] getMembersByUserId called', { userId: userId });
 	return organizationMemberRepository.findByUserId(userId);
 }
 
-export async function createOrganizationMember(data: CreateOrganizationMemberRequest) {
+export async function createOrganizationMember(data: CreateOrganizationMemberRequest, actorUserId?: string) {
+	logger.debug('[organization-members] createOrganizationMember called', { actorUserId: actorUserId });
 	if (!data.organization_id) {
 		throw new Error('Organization ID is required');
 	}
@@ -51,7 +64,7 @@ export async function createOrganizationMember(data: CreateOrganizationMemberReq
 		throw new Error('User already belongs to organization');
 	}
 
-	return organizationMemberRepository.create({
+	const member = await organizationMemberRepository.create({
 		organization_id: data.organization_id,
 		user_id: data.user_id.trim(),
 		level: data.level.trim(),
@@ -59,10 +72,23 @@ export async function createOrganizationMember(data: CreateOrganizationMemberReq
 		updated_by: data.updated_by.trim(),
 		username: data.username?.trim(),
 	});
+
+	await auditLogService.recordAuditLog({
+		userId: actorUserId,
+		action: 'CREATE',
+		entity: AUDIT_ENTITY,
+		entityId: member.id,
+		after: member,
+	});
+
+	return member;
 }
 
-export async function updateOrganizationMember(id: number, data: UpdateOrganizationMemberRequest) {
-	const existingMember = await organizationMemberRepository.findById(id);
+export async function updateOrganizationMember(id: number, data: UpdateOrganizationMemberRequest, actorUserId?: string, isSuperAdmin = false) {
+	logger.debug('[organization-members] updateOrganizationMember called', { id: id, actorUserId: actorUserId });
+	const existingMember = actorUserId && !isSuperAdmin
+		? await organizationMemberRepository.findByIdForUser(id, actorUserId)
+		: await organizationMemberRepository.findById(id);
 
 	if (!existingMember) {
 		throw new Error('Organization member not found');
@@ -72,19 +98,43 @@ export async function updateOrganizationMember(id: number, data: UpdateOrganizat
 		throw new Error('Level is required');
 	}
 
-	return organizationMemberRepository.update(id, {
+	const updatedMember = await organizationMemberRepository.update(id, {
 		level: data.level?.trim(),
 		updated_by: data.updated_by?.trim(),
 		username: data.username?.trim(),
 	});
+
+	await auditLogService.recordAuditLog({
+		userId: actorUserId,
+		action: 'UPDATE',
+		entity: AUDIT_ENTITY,
+		entityId: id,
+		before: existingMember,
+		after: updatedMember,
+	});
+
+	return updatedMember;
 }
 
-export async function deleteOrganizationMember(id: number) {
-	const existingMember = await organizationMemberRepository.findById(id);
+export async function deleteOrganizationMember(id: number, actorUserId?: string, isSuperAdmin = false) {
+	logger.debug('[organization-members] deleteOrganizationMember called', { id: id, actorUserId: actorUserId });
+	const existingMember = actorUserId && !isSuperAdmin
+		? await organizationMemberRepository.findByIdForUser(id, actorUserId)
+		: await organizationMemberRepository.findById(id);
 
 	if (!existingMember) {
 		throw new Error('Organization member not found');
 	}
 
-	return organizationMemberRepository.remove(id);
+	const removedMember = await organizationMemberRepository.remove(id);
+
+	await auditLogService.recordAuditLog({
+		userId: actorUserId,
+		action: 'DELETE',
+		entity: AUDIT_ENTITY,
+		entityId: id,
+		before: existingMember,
+	});
+
+	return removedMember;
 }

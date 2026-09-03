@@ -1,7 +1,10 @@
 import { Router } from 'express';
+import { authenticate, requirePermission } from '../../middlewares/auth.middleware.js';
 import { getRoles, getRole, createRole, updateRole, deleteRole } from '../../controllers/roles/role.controller.js';
 
 const router = Router();
+
+router.use(authenticate);
 
 /**
  * @swagger
@@ -14,7 +17,7 @@ const router = Router();
  *       200:
  *         description: Roles retrieved successfully
  */
-router.get('/', getRoles);
+router.get('/', requirePermission('ROLE_VIEW'), getRoles);
 
 /**
  * @swagger
@@ -35,7 +38,7 @@ router.get('/', getRoles);
  *       404:
  *         description: Role not found
  */
-router.get('/:id', getRole);
+router.get('/:id', requirePermission('ROLE_VIEW'), getRole);
 
 /**
  * @swagger
@@ -58,7 +61,7 @@ router.get('/:id', getRole);
  *       409:
  *         description: Role already exists
  */
-router.post('/', createRole);
+router.post('/', requirePermission('ROLE_CREATE'), createRole);
 
 /**
  * @swagger
@@ -81,7 +84,7 @@ router.post('/', createRole);
  *       404:
  *         description: Role not found
  */
-router.put('/:id', updateRole);
+router.put('/:id', requirePermission('ROLE_UPDATE'), updateRole);
 
 /**
  * @swagger
@@ -98,6 +101,6 @@ router.put('/:id', updateRole);
  *       404:
  *         description: Role not found
  */
-router.delete('/:id', deleteRole);
+router.delete('/:id', requirePermission('ROLE_DELETE'), deleteRole);
 
 export default router;

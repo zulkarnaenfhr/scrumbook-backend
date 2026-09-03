@@ -1,8 +1,11 @@
 import { Router } from 'express';
+import { authenticate, requirePermission } from '../../middlewares/auth.middleware.js';
 
 import { getProjectConstraints, getProjectConstraint, createProjectConstraint, updateProjectConstraint, deleteProjectConstraint } from '../../controllers/project-constraints/project-constraint.controller.js';
 
 const router = Router();
+
+router.use(authenticate);
 
 /**
  * @swagger
@@ -15,7 +18,7 @@ const router = Router();
  *       200:
  *         description: Project constraints retrieved successfully
  */
-router.get('/', getProjectConstraints);
+router.get('/', requirePermission('CONSTRAINT_VIEW'), getProjectConstraints);
 
 /**
  * @swagger
@@ -37,7 +40,7 @@ router.get('/', getProjectConstraints);
  *       404:
  *         description: Project constraint not found
  */
-router.get('/:id', getProjectConstraint);
+router.get('/:id', requirePermission('CONSTRAINT_VIEW'), getProjectConstraint);
 
 /**
  * @swagger
@@ -58,7 +61,7 @@ router.get('/:id', getProjectConstraint);
  *       400:
  *         description: Invalid request
  */
-router.post('/', createProjectConstraint);
+router.post('/', requirePermission('CONSTRAINT_CREATE'), createProjectConstraint);
 
 /**
  * @swagger
@@ -85,7 +88,7 @@ router.post('/', createProjectConstraint);
  *       404:
  *         description: Project constraint not found
  */
-router.put('/:id', updateProjectConstraint);
+router.put('/:id', requirePermission('CONSTRAINT_UPDATE'), updateProjectConstraint);
 
 /**
  * @swagger
@@ -106,6 +109,6 @@ router.put('/:id', updateProjectConstraint);
  *       404:
  *         description: Project constraint not found
  */
-router.delete('/:id', deleteProjectConstraint);
+router.delete('/:id', requirePermission('CONSTRAINT_DELETE'), deleteProjectConstraint);
 
 export default router;

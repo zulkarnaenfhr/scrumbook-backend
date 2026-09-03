@@ -12,8 +12,6 @@ export interface Organization {
 export interface CreateOrganizationRequest {
 	name: string;
 	description: string;
-	created_by: string;
-	user_id: string;
 }
 
 export interface UpdateOrganizationRequest {

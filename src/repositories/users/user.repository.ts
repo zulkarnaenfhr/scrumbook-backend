@@ -36,6 +36,20 @@ export async function findById(id: string) {
 	return result.rows[0] ?? null;
 }
 
+export async function findRoleNameById(id: string): Promise<string | null> {
+	const result = await pool.query(
+		`
+		SELECT r.name
+		FROM scrum.users u
+		LEFT JOIN scrum.roles r ON r.id = u.role_id
+		WHERE u.id = $1
+		`,
+		[id],
+	);
+
+	return result.rows[0]?.name ?? null;
+}
+
 export async function findByEmail(email: string) {
 	const result = await pool.query(
 		`

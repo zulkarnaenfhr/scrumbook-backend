@@ -1,10 +1,16 @@
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET;
+function requireJwtSecret(): string {
+	const secret = process.env.JWT_SECRET;
 
-if (!JWT_SECRET) {
-	throw new Error('JWT_SECRET is not configured');
+	if (!secret) {
+		throw new Error('JWT_SECRET is not configured');
+	}
+
+	return secret;
 }
+
+const JWT_SECRET: string = requireJwtSecret();
 
 export interface JwtPayload {
 	id: string;
@@ -18,5 +24,5 @@ export function generateToken(payload: JwtPayload): string {
 }
 
 export function verifyToken(token: string): JwtPayload {
-	return jwt.verify(token, JWT_SECRET) as JwtPayload;
+	return jwt.verify(token, JWT_SECRET) as unknown as JwtPayload;
 }

@@ -20,6 +20,7 @@ import taskRoutes from './routes/tasks/task.routes.js';
 import correspondingTeamRoutes from './routes/corresponding-teams/corresponding-team.routes.js';
 import authRoutes from './routes/auth/auth.routes.js';
 import rolesRoutes from './routes/roles/roles.routes.js';
+import auditLogRoutes from './routes/audit-logs/audit-log.routes.js';
 
 dotenv.config();
 
@@ -74,6 +75,7 @@ app.use('/api/corresponding-teams', correspondingTeamRoutes);
 app.use('/api/organization-members', organizationMemberRoutes);
 
 app.use('/api/auth', authRoutes);
+app.use('/api/audit-logs', auditLogRoutes);
 
 app.use(errorMiddleware);
 

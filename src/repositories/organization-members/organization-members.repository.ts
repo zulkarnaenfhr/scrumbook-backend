@@ -20,6 +20,61 @@ export async function findAll() {
 	return result.rows;
 }
 
+export async function findAllByUserId(userId: string) {
+	const result = await pool.query(
+		`
+		SELECT om.id, om.created_at, om.organization_id, om.user_id, om.level,
+		       om.created_by, om.updated_by, om.updated_at, om.username
+		FROM scrum.organization_member om
+		INNER JOIN scrum.organization_member viewer
+			ON viewer.organization_id = om.organization_id
+		WHERE viewer.user_id = $1
+		ORDER BY om.created_at DESC
+		`,
+		[userId],
+	);
+
+	return result.rows;
+}
+
+export async function findByIdForUser(id: number, userId: string) {
+	const result = await pool.query(
+		`
+		SELECT om.id, om.created_at, om.organization_id, om.user_id, om.level,
+		       om.created_by, om.updated_by, om.updated_at, om.username
+		FROM scrum.organization_member om
+		INNER JOIN scrum.organization_member viewer
+			ON viewer.organization_id = om.organization_id
+		WHERE om.id = $1
+		  AND viewer.user_id = $2
+		`,
+		[id, userId],
+	);
+
+	return result.rows[0] ?? null;
+}
+
+export async function findByOrganizationIdForUser(organizationId: number, userId: string) {
+	const result = await pool.query(
+		`
+		SELECT om.id, om.created_at, om.organization_id, om.user_id, om.level,
+		       om.created_by, om.updated_by, om.updated_at, om.username
+		FROM scrum.organization_member om
+		WHERE om.organization_id = $1
+		  AND EXISTS (
+			SELECT 1
+			FROM scrum.organization_member viewer
+			WHERE viewer.organization_id = om.organization_id
+			  AND viewer.user_id = $2
+		  )
+		ORDER BY om.created_at DESC
+		`,
+		[organizationId, userId],
+	);
+
+	return result.rows;
+}
+
 export async function findById(id: number) {
 	const result = await pool.query(
 		`

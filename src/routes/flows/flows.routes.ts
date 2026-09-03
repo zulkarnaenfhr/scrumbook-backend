@@ -1,8 +1,11 @@
 import { Router } from 'express';
+import { authenticate, requirePermission } from '../../middlewares/auth.middleware.js';
 
 import { getFlows, getFlow, createFlow, updateFlow, deleteFlow } from '../../controllers/flows/flows.controller.js';
 
 const router = Router();
+
+router.use(authenticate);
 
 /**
  * @swagger
@@ -15,7 +18,7 @@ const router = Router();
  *       200:
  *         description: Flows retrieved successfully
  */
-router.get('/', getFlows);
+router.get('/', requirePermission('FLOW_VIEW'), getFlows);
 
 /**
  * @swagger
@@ -37,7 +40,7 @@ router.get('/', getFlows);
  *       404:
  *         description: Flow not found
  */
-router.get('/:id', getFlow);
+router.get('/:id', requirePermission('FLOW_VIEW'), getFlow);
 
 /**
  * @swagger
@@ -58,7 +61,7 @@ router.get('/:id', getFlow);
  *       400:
  *         description: Invalid request
  */
-router.post('/', createFlow);
+router.post('/', requirePermission('FLOW_CREATE'), createFlow);
 
 /**
  * @swagger
@@ -85,7 +88,7 @@ router.post('/', createFlow);
  *       404:
  *         description: Flow not found
  */
-router.put('/:id', updateFlow);
+router.put('/:id', requirePermission('FLOW_UPDATE'), updateFlow);
 
 /**
  * @swagger
@@ -106,6 +109,6 @@ router.put('/:id', updateFlow);
  *       404:
  *         description: Flow not found
  */
-router.delete('/:id', deleteFlow);
+router.delete('/:id', requirePermission('FLOW_DELETE'), deleteFlow);
 
 export default router;

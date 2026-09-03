@@ -1,8 +1,26 @@
 import { Router } from 'express';
 
-import { getUsers, getUser, createUser, updateUser, deleteUser } from '../../controllers/users/user.controller.js';
+import { getUsers, getUser, getCurrentUser, createUser, updateUser, deleteUser } from '../../controllers/users/user.controller.js';
+import { authenticate, requirePermission } from '../../middlewares/auth.middleware.js';
 
 const router = Router();
+
+/**
+ * @swagger
+ * /api/users/me:
+ *   get:
+ *     tags:
+ *       - Users
+ *     summary: Get the currently authenticated user
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Current user retrieved successfully
+ *       401:
+ *         description: Unauthorized
+ */
+router.get('/me', authenticate, getCurrentUser);
 
 /**
  * @swagger
@@ -11,11 +29,15 @@ const router = Router();
  *     tags:
  *       - Users
  *     summary: Get all users
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Users retrieved successfully
+ *       401:
+ *         description: Unauthorized
  */
-router.get('/', getUsers);
+router.get('/', authenticate, requirePermission('USER_VIEW'), getUsers);
 
 /**
  * @swagger
@@ -24,6 +46,8 @@ router.get('/', getUsers);
  *     tags:
  *       - Users
  *     summary: Get user by ID
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
@@ -35,10 +59,12 @@ router.get('/', getUsers);
  *     responses:
  *       200:
  *         description: User retrieved successfully
+ *       401:
+ *         description: Unauthorized
  *       404:
  *         description: User not found
  */
-router.get('/:id', getUser);
+router.get('/:id', authenticate, requirePermission('USER_VIEW'), getUser);
 
 /**
  * @swagger
@@ -46,7 +72,8 @@ router.get('/:id', getUser);
  *   post:
  *     tags:
  *       - Users
- *     summary: Create user
+ *     summary: Register a new user
+ *     description: Public endpoint — no authentication required, this is how an account is created in the first place.
  *     requestBody:
  *       required: true
  *       content:
@@ -68,6 +95,8 @@ router.post('/', createUser);
  *     tags:
  *       - Users
  *     summary: Update user
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
@@ -84,10 +113,12 @@ router.post('/', createUser);
  *     responses:
  *       200:
  *         description: User updated successfully
+ *       401:
+ *         description: Unauthorized
  *       404:
  *         description: User not found
  */
-router.put('/:id', updateUser);
+router.put('/:id', authenticate, requirePermission('USER_UPDATE'), updateUser);
 
 /**
  * @swagger
@@ -96,6 +127,8 @@ router.put('/:id', updateUser);
  *     tags:
  *       - Users
  *     summary: Delete user
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
@@ -106,9 +139,11 @@ router.put('/:id', updateUser);
  *     responses:
  *       200:
  *         description: User deleted successfully
+ *       401:
+ *         description: Unauthorized
  *       404:
  *         description: User not found
  */
-router.delete('/:id', deleteUser);
+router.delete('/:id', authenticate, requirePermission('USER_DELETE'), deleteUser);
 
 export default router;

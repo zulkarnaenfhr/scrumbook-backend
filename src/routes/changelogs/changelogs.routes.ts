@@ -1,8 +1,11 @@
 import { Router } from 'express';
+import { authenticate, requirePermission } from '../../middlewares/auth.middleware.js';
 
 import { getChangelogs, getChangelog, createChangelog, updateChangelog, deleteChangelog } from '../../controllers/changelogs/changelogs.controller.js';
 
 const router = Router();
+
+router.use(authenticate);
 
 /**
  * @swagger
@@ -15,7 +18,7 @@ const router = Router();
  *       200:
  *         description: Changelogs retrieved successfully
  */
-router.get('/', getChangelogs);
+router.get('/', requirePermission('CHANGELOG_VIEW'), getChangelogs);
 
 /**
  * @swagger
@@ -37,7 +40,7 @@ router.get('/', getChangelogs);
  *       404:
  *         description: Changelog not found
  */
-router.get('/:id', getChangelog);
+router.get('/:id', requirePermission('CHANGELOG_VIEW'), getChangelog);
 
 /**
  * @swagger
@@ -58,7 +61,7 @@ router.get('/:id', getChangelog);
  *       400:
  *         description: Invalid request
  */
-router.post('/', createChangelog);
+router.post('/', requirePermission('CHANGELOG_CREATE'), createChangelog);
 
 /**
  * @swagger
@@ -85,7 +88,7 @@ router.post('/', createChangelog);
  *       404:
  *         description: Changelog not found
  */
-router.put('/:id', updateChangelog);
+router.put('/:id', requirePermission('CHANGELOG_UPDATE'), updateChangelog);
 
 /**
  * @swagger
@@ -106,6 +109,6 @@ router.put('/:id', updateChangelog);
  *       404:
  *         description: Changelog not found
  */
-router.delete('/:id', deleteChangelog);
+router.delete('/:id', requirePermission('CHANGELOG_DELETE'), deleteChangelog);
 
 export default router;

@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { logger } from "../utils/logger.js";
 
 export function errorMiddleware(
   error: Error,
@@ -6,7 +7,12 @@ export function errorMiddleware(
   res: Response,
   next: NextFunction
 ) {
-  console.error(error);
+  logger.error("Unhandled request error", {
+    method: req.method,
+    path: req.originalUrl,
+    message: error.message,
+    stack: error.stack,
+  });
 
   const message = error.message || "Internal server error";
 

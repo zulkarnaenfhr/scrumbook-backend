@@ -1,8 +1,11 @@
 import { Router } from 'express';
 
 import { getTasks, getTask, createTask, updateTask, deleteTask } from '../../controllers/tasks/task.controller.js';
+import { authenticate, authorizeOrganizationLevel, requirePermission } from '../../middlewares/auth.middleware.js';
 
 const router = Router();
+
+router.use(authenticate);
 
 /**
  * @swagger
@@ -15,7 +18,7 @@ const router = Router();
  *       200:
  *         description: Tasks retrieved successfully
  */
-router.get('/', getTasks);
+router.get('/', requirePermission('TASK_VIEW'), getTasks);
 
 /**
  * @swagger
@@ -37,7 +40,7 @@ router.get('/', getTasks);
  *       404:
  *         description: Task not found
  */
-router.get('/:id', getTask);
+router.get('/:id', requirePermission('TASK_VIEW'), getTask);
 
 /**
  * @swagger
@@ -58,7 +61,8 @@ router.get('/:id', getTask);
  *       400:
  *         description: Invalid request
  */
-router.post('/', createTask);
+// ADMIN or MEMBER of the task's project's organization.
+router.post('/', authorizeOrganizationLevel(['ADMIN', 'MEMBER']), requirePermission('TASK_CREATE'), createTask);
 
 /**
  * @swagger
@@ -85,7 +89,7 @@ router.post('/', createTask);
  *       404:
  *         description: Task not found
  */
-router.put('/:id', updateTask);
+router.put('/:id', authorizeOrganizationLevel(['ADMIN', 'MEMBER']), requirePermission('TASK_UPDATE'), updateTask);
 
 /**
  * @swagger
@@ -106,6 +110,7 @@ router.put('/:id', updateTask);
  *       404:
  *         description: Task not found
  */
-router.delete('/:id', deleteTask);
+// Deleting is reserved for ADMIN.
+router.delete('/:id', authorizeOrganizationLevel(['ADMIN']), requirePermission('TASK_DELETE'), deleteTask);
 
 export default router;

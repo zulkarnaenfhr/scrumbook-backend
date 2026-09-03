@@ -1,8 +1,11 @@
 import { Router } from 'express';
 
 import { getOrganizations, getOrganization, createOrganization, updateOrganization, deleteOrganization } from '../../controllers/organization/organization.controller.js';
+import { authenticate, authorizeOrganizationLevel, requirePermission } from '../../middlewares/auth.middleware.js';
 
 const router = Router();
+
+router.use(authenticate);
 
 /**
  * @swagger
@@ -11,13 +14,15 @@ const router = Router();
  *     tags:
  *       - Organizations
  *     summary: Get all organizations
+ *     security:
+ *      - bearerAuth: []
  *     responses:
  *       200:
  *         description: Organizations retrieved successfully
  *       404:
  *         description: No organizations found
  */
-router.get('/', getOrganizations);
+router.get('/', requirePermission('ORGANIZATION_VIEW'), getOrganizations);
 
 /**
  * @swagger
@@ -26,6 +31,8 @@ router.get('/', getOrganizations);
  *     tags:
  *       - Organizations
  *     summary: Get organization by ID
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
@@ -40,7 +47,7 @@ router.get('/', getOrganizations);
  *       404:
  *         description: Organization not found
  */
-router.get('/:id', getOrganization);
+router.get('/:id', requirePermission('ORGANIZATION_VIEW'), getOrganization);
 
 /**
  * @swagger
@@ -49,6 +56,8 @@ router.get('/:id', getOrganization);
  *     tags:
  *       - Organizations
  *     summary: Create organization
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -61,6 +70,7 @@ router.get('/:id', getOrganization);
  *       400:
  *         description: Invalid request
  */
+// Any authenticated user can create their own organization.
 router.post('/', createOrganization);
 
 /**
@@ -70,6 +80,8 @@ router.post('/', createOrganization);
  *     tags:
  *       - Organizations
  *     summary: Update organization
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
@@ -89,7 +101,7 @@ router.post('/', createOrganization);
  *       404:
  *         description: Organization not found
  */
-router.put('/:id', updateOrganization);
+router.put('/:id', authorizeOrganizationLevel(['ADMIN']), requirePermission('ORGANIZATION_UPDATE'), updateOrganization);
 
 /**
  * @swagger
@@ -98,6 +110,8 @@ router.put('/:id', updateOrganization);
  *     tags:
  *       - Organizations
  *     summary: Delete organization
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
@@ -111,6 +125,6 @@ router.put('/:id', updateOrganization);
  *       404:
  *         description: Organization not found
  */
-router.delete('/:id', deleteOrganization);
+router.delete('/:id', authorizeOrganizationLevel(['ADMIN']), requirePermission('ORGANIZATION_DELETE'), deleteOrganization);
 
 export default router;

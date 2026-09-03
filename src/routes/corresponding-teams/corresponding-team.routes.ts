@@ -1,8 +1,11 @@
 import { Router } from 'express';
+import { authenticate, requirePermission } from '../../middlewares/auth.middleware.js';
 
 import { getCorrespondingTeams, getCorrespondingTeam, createCorrespondingTeam, updateCorrespondingTeam, deleteCorrespondingTeam } from '../../controllers/corresponding-teams/corresponding-team.controller.js';
 
 const router = Router();
+
+router.use(authenticate);
 
 /**
  * @swagger
@@ -15,7 +18,7 @@ const router = Router();
  *       200:
  *         description: Corresponding teams retrieved successfully
  */
-router.get('/', getCorrespondingTeams);
+router.get('/', requirePermission('TEAM_VIEW'), getCorrespondingTeams);
 
 /**
  * @swagger
@@ -37,7 +40,7 @@ router.get('/', getCorrespondingTeams);
  *       404:
  *         description: Corresponding team not found
  */
-router.get('/:id', getCorrespondingTeam);
+router.get('/:id', requirePermission('TEAM_VIEW'), getCorrespondingTeam);
 
 /**
  * @swagger
@@ -58,7 +61,7 @@ router.get('/:id', getCorrespondingTeam);
  *       400:
  *         description: Invalid request
  */
-router.post('/', createCorrespondingTeam);
+router.post('/', requirePermission('TEAM_CREATE'), createCorrespondingTeam);
 
 /**
  * @swagger
@@ -85,7 +88,7 @@ router.post('/', createCorrespondingTeam);
  *       404:
  *         description: Corresponding team not found
  */
-router.put('/:id', updateCorrespondingTeam);
+router.put('/:id', requirePermission('TEAM_UPDATE'), updateCorrespondingTeam);
 
 /**
  * @swagger
@@ -106,6 +109,6 @@ router.put('/:id', updateCorrespondingTeam);
  *       404:
  *         description: Corresponding team not found
  */
-router.delete('/:id', deleteCorrespondingTeam);
+router.delete('/:id', requirePermission('TEAM_DELETE'), deleteCorrespondingTeam);
 
 export default router;
